@@ -5,272 +5,442 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Life Appeals Department</title>
 <style>
-  :root {
-    --paper:#f6f1e7;
-    --ink:#1f1b18;
-    --muted:#6f655d;
-    --line:#2b2520;
-    --red:#9b1c1c;
-    --gold:#b9975b;
-    --green:#31533a;
-    --shadow:rgba(0,0,0,.18);
-  }
-  * { box-sizing:border-box; }
-  body {
-    margin:0;
-    background: radial-gradient(circle at top, #f8f1df 0, #e7dcc8 55%, #c7b99f 100%);
-    font-family: Georgia, 'Times New Roman', serif;
-    color:var(--ink);
-    min-height:100vh;
-    padding:24px;
-  }
-  .wrap { max-width:900px; margin:0 auto; }
-  .seal {
-    width:92px; height:92px; border:4px double var(--line); border-radius:50%;
-    display:grid; place-items:center; margin:0 auto 14px; background:#efe3c8;
-    box-shadow:0 6px 18px var(--shadow); font-size:34px;
-  }
-  .card {
-    background:var(--paper);
-    border:3px solid var(--line);
-    box-shadow:10px 10px 0 rgba(31,27,24,.22);
-    padding:26px;
-    position:relative;
-  }
-  .card:before {
-    content:"OFFICIAL USE ONLY";
-    position:absolute; top:12px; right:12px;
-    border:2px solid var(--red); color:var(--red);
-    padding:5px 8px; font-size:12px; font-weight:bold;
-    transform:rotate(4deg); letter-spacing:.08em;
-  }
-  h1 { text-align:center; margin:4px 0 4px; font-size:clamp(32px,6vw,58px); line-height:.95; letter-spacing:.02em; }
-  .sub { text-align:center; color:var(--muted); font-style:italic; margin:0 0 18px; }
-  .bar { border-top:2px solid var(--line); border-bottom:2px solid var(--line); padding:10px 0; margin:18px 0; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:14px; }
-  label { display:block; font-weight:bold; margin:18px 0 7px; }
-  select, textarea, input {
-    width:100%; padding:12px; border:2px solid var(--line); background:#fffaf0; color:var(--ink);
-    font:16px Georgia, 'Times New Roman', serif;
-  }
-  textarea { min-height:120px; resize:vertical; }
-  .hint { color:var(--muted); font-size:14px; margin-top:6px; }
-  button {
-    cursor:pointer; border:3px solid var(--line); background:var(--red); color:white;
-    padding:14px 20px; margin-top:18px; font-weight:bold; letter-spacing:.08em;
-    font-family:Georgia, 'Times New Roman', serif; font-size:16px; box-shadow:5px 5px 0 rgba(31,27,24,.25);
-  }
-  button:hover { transform:translate(1px,1px); box-shadow:4px 4px 0 rgba(31,27,24,.25); }
-  button.secondary { background:var(--green); }
-  .loading, .result { display:none; margin-top:24px; border:2px dashed var(--line); padding:18px; background:#fff8e8; }
-  .loading.active, .result.active { display:block; }
-  .progress { height:18px; border:2px solid var(--line); background:#e8dcc2; margin:14px 0; overflow:hidden; }
-  .progress span { display:block; width:0%; height:100%; background:var(--gold); transition:width .35s ease; }
-  .message { min-height:26px; font-weight:bold; }
-  .stamp {
-    display:inline-block; border:5px solid var(--red); color:var(--red); padding:8px 16px;
-    font-size:clamp(34px,8vw,72px); font-weight:bold; letter-spacing:.08em;
-    transform:rotate(-6deg); margin:14px 0; animation:slam .28s ease-out;
-  }
-  @keyframes slam { from { transform:scale(2.2) rotate(-14deg); opacity:0; } to { transform:scale(1) rotate(-6deg); opacity:1; } }
-  .reason { font-size:22px; line-height:1.35; margin:10px 0; }
-  .signature { margin-top:20px; color:var(--muted); font-style:italic; }
-  .fineprint { margin-top:18px; font-size:12px; color:var(--muted); border-top:1px solid #b7aa94; padding-top:10px; }
-  .tiny { font-size:13px; color:var(--muted); }
-  @media (max-width:600px){ body{padding:12px;} .card{padding:18px; box-shadow:6px 6px 0 rgba(31,27,24,.22);} .card:before{position:static; display:inline-block; margin-bottom:10px;} }
+* { box-sizing: border-box; }
+
+body {
+margin: 0;
+font-family: Georgia, "Times New Roman", serif;
+background: #e7e2d6;
+color: #1f1f1f;
+}
+
+.page {
+max-width: 900px;
+margin: 30px auto;
+padding: 20px;
+}
+
+.office {
+background: #f8f5ed;
+border: 4px double #222;
+padding: 28px;
+box-shadow: 8px 8px 0 #333;
+}
+
+.seal {
+text-align: center;
+font-size: 42px;
+}
+
+h1 {
+text-align: center;
+margin: 5px 0;
+letter-spacing: 2px;
+font-size: 34px;
+}
+
+h2 {
+text-align: center;
+margin-top: 0;
+font-size: 18px;
+font-weight: normal;
+}
+
+.small {
+text-align: center;
+font-size: 13px;
+margin-bottom: 25px;
+}
+
+label {
+font-weight: bold;
+display: block;
+margin-top: 18px;
+}
+
+select, textarea {
+width: 100%;
+padding: 12px;
+margin-top: 8px;
+border: 2px solid #333;
+background: #fff;
+font-size: 16px;
+font-family: Arial, sans-serif;
+}
+
+textarea {
+min-height: 110px;
+resize: vertical;
+}
+
+button {
+margin-top: 22px;
+width: 100%;
+padding: 16px;
+background: #222;
+color: #fff;
+border: none;
+font-weight: bold;
+font-size: 18px;
+letter-spacing: 1px;
+cursor: pointer;
+}
+
+button:hover {
+background: #000;
+}
+
+.casebox {
+border: 2px solid #333;
+padding: 12px;
+background: #fff;
+font-family: "Courier New", monospace;
+margin: 20px 0;
+}
+
+.hidden {
+display: none;
+}
+
+.review {
+margin-top: 25px;
+padding: 18px;
+border: 2px dashed #333;
+background: #fff;
+font-family: "Courier New", monospace;
+}
+
+.result {
+margin-top: 25px;
+padding: 24px;
+background: #fff;
+border: 3px solid #111;
+text-align: center;
+}
+
+.stamp {
+display: inline-block;
+border: 5px solid #8b0000;
+color: #8b0000;
+padding: 10px 20px;
+font-size: 34px;
+font-weight: bold;
+transform: rotate(-7deg);
+margin-bottom: 20px;
+animation: slam .25s ease-out;
+}
+
+@keyframes slam {
+0% { transform: scale(3) rotate(-7deg); opacity: 0; }
+100% { transform: scale(1) rotate(-7deg); opacity: 1; }
+}
+
+.decision {
+font-size: 24px;
+font-weight: bold;
+margin: 12px 0;
+}
+
+.reason {
+font-size: 18px;
+line-height: 1.5;
+}
+
+.signature {
+margin-top: 25px;
+font-family: "Courier New", monospace;
+font-size: 14px;
+}
+
+.footer {
+margin-top: 25px;
+font-size: 12px;
+text-align: center;
+}
+
+@media (max-width: 600px) {
+.office { padding: 18px; box-shadow: 4px 4px 0 #333; }
+h1 { font-size: 26px; }
+.stamp { font-size: 26px; }
+}
 </style>
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="seal">⚖️</div>
-    <section class="card">
-      <h1>Life Appeals Department</h1>
-      <p class="sub">Department of Questionable Decisions</p>
-      <div class="bar">
-        <div><strong>Case:</strong> <span id="caseNo"></span></div>
-        <div><strong>Status:</strong> Not Yet Regretted</div>
-        <div><strong>Jurisdiction:</strong> The Internet, regrettably</div>
-      </div>
+<div class="page">
+<div class="office">
+<div class="seal">🏛️</div>
+<h1>LIFE APPEALS DEPARTMENT</h1>
+<h2>Department of Questionable Decisions</h2>
+<p class="small">Official Appeals Portal | Established Whenever This Became Necessary</p>
 
-      <label for="category">Select your complaint.</label>
-      <select id="category">
-        <option>Relationship</option>
-        <option>Family</option>
-        <option>Work</option>
-        <option>Neighbor</option>
-        <option>Social Media</option>
-        <option>Retail Incident</option>
-        <option>I have absolutely no idea what happened</option>
-      </select>
+<div class="casebox">
+CASE NUMBER: <span id="caseNumber"></span>
+</div>
 
-      <label for="appeal">Briefly explain your situation.</label>
-      <textarea id="appeal" placeholder="Example: My boss scheduled a meeting at 4:55 on a Friday."></textarea>
-      <p class="hint">Your complaint will not be saved. The Department has enough problems.</p>
+<label for="category">Select your complaint category:</label>
+<select id="category">
+<option>Relationship</option>
+<option>Family</option>
+<option>Work</option>
+<option>Neighbor</option>
+<option>Social Media</option>
+<option>General Nonsense</option>
+<option>I Have No Idea What Is Happening</option>
+</select>
 
-      <button id="fileBtn">FILE APPEAL</button>
+<label for="appealText">Briefly explain your situation:</label>
+<textarea id="appealText" placeholder="Type your appeal here. The department is allegedly listening."></textarea>
 
-      <div class="loading" id="loadingBox">
-        <div class="message" id="loadMsg">Opening your file...</div>
-        <div class="progress"><span id="progressBar"></span></div>
-        <p class="tiny">Please remain emotionally available while we pretend to process this.</p>
-      </div>
+<button onclick="fileAppeal()">FILE APPEAL</button>
 
-      <div class="result" id="resultBox">
-        <div class="tiny"><strong>Final Decision for Case <span id="caseNo2"></span></strong></div>
-        <div class="stamp" id="stamp">APPROVED</div>
-        <div class="reason" id="reason"></div>
-        <div class="signature" id="signature"></div>
-        <button class="secondary" id="againBtn">FILE ANOTHER APPEAL</button>
-        <div class="fineprint">This decision is final unless you complain louder. This page is powered by sarcasm and has no legal, romantic, professional, or spiritual authority.</div>
-      </div>
-    </section>
-  </main>
+<div id="reviewBox" class="review hidden"></div>
+
+<div id="resultBox" class="result hidden">
+<div id="stamp" class="stamp"></div>
+<div id="decision" class="decision"></div>
+<div id="reason" class="reason"></div>
+<div id="signature" class="signature"></div>
+<button onclick="resetAppeal()">FILE ANOTHER APPEAL</button>
+</div>
+
+<p class="footer">
+Disclaimer: This department has no authority, no credentials, and one suspiciously loud printer.
+</p>
+</div>
+</div>
 
 <script>
 const loadingMessages = [
-  "Opening your file...",
-  "Looking for someone qualified...",
-  "Finding the least biased employee...",
-  "Double-checking your life choices...",
-  "Consulting the office plant...",
-  "Reviewing the evidence sideways...",
-  "Asking Barbara where the forms went...",
-  "Stamping something unnecessarily...",
-  "Pretending this department has standards...",
-  "Locating the emergency clipboard...",
-  "Searching for common sense...",
-  "Common sense not found. Continuing anyway...",
-  "Contacting absolutely nobody...",
-  "Ignoring established procedures...",
-  "Re-reading your complaint with concern...",
-  "Forwarding this to Future You...",
-  "Checking if this is technically our problem...",
-  "The committee is sighing...",
-  "Someone has asked for a second pen...",
-  "Your paperwork has been judged silently...",
-  "A supervisor has been summoned and immediately left...",
-  "Calculating the odds of regret...",
-  "Looking under the copier for accountability...",
-  "We found a sticky note that says 'probably no'...",
-  "Applying the official side-eye...",
-  "Reviewing previous bad ideas for context...",
-  "The intern has questions...",
-  "The intern has been removed from the file...",
-  "Requesting one adult in the room...",
-  "No adults available...",
-  "Preparing your final decision..."
+"Opening your file...",
+"Assigning your case to someone with a pen...",
+"Looking for a qualified adult...",
+"Locating the form nobody asked for...",
+"Reviewing the evidence...",
+"Questioning the timeline...",
+"Checking for common sense...",
+"Sending paperwork to the wrong office...",
+"Recovering paperwork from the wrong office...",
+"Consulting a decorative clipboard...",
+"Pretending this is under control...",
+"Making several unnecessary copies...",
+"Searching for accountability...",
+"Pausing for dramatic effect...",
+"Asking Barbara if she has seen this before...",
+"Barbara has seen this before...",
+"Checking whether this could have been avoided...",
+"It could have been avoided...",
+"Reviewing your right to be annoyed...",
+"Preparing official nonsense..."
 ];
 
-const verdicts = [
-  {stamp:"DENIED", text:"You already knew the answer before filing this appeal."},
-  {stamp:"APPROVED", text:"Someone else is officially the problem. Please enjoy this rare achievement."},
-  {stamp:"DENIED", text:"Your appeal has been denied due to suspicious levels of optimism."},
-  {stamp:"APPROVED", text:"You may now stop explaining yourself to people committed to misunderstanding you."},
-  {stamp:"PENDING", text:"This situation requires coffee, silence, and one person minding their own business."},
-  {stamp:"DENIED", text:"The Department regrets to inform you that texting them would be unwise."},
-  {stamp:"APPROVED", text:"You are granted permission to leave the conversation without a closing statement."},
-  {stamp:"DENIED", text:"The first twelve red flags were not decorative."},
-  {stamp:"APPROVED", text:"You may cancel this plan and blame 'a thing' without further explanation."},
-  {stamp:"REVIEWED", text:"You are not crazy. You are tired, observant, and extremely over this."},
-  {stamp:"DENIED", text:"This is not closure. This is curiosity wearing a fake mustache."},
-  {stamp:"APPROVED", text:"The court awards you one dramatic stare out a window."},
-  {stamp:"DENIED", text:"Do not write a paragraph. Do not send a paragraph. Step away from the paragraph."},
-  {stamp:"APPROVED", text:"You have earned the right to complain for exactly seventeen minutes."},
-  {stamp:"PENDING", text:"We need everybody involved to go home and think about what they've done."},
-  {stamp:"APPROVED", text:"Your instinct was correct, which is annoying because now you have to do something about it."},
-  {stamp:"DENIED", text:"The Department cannot support this level of benefit of the doubt."},
-  {stamp:"APPROVED", text:"You may pretend you did not see that message until tomorrow."},
-  {stamp:"DENIED", text:"That was not a mixed signal. That was a full marching band."},
-  {stamp:"APPROVED", text:"You are now legally over it, according to no one qualified."},
-  {stamp:"REJECTED", text:"Your request to make one more exception has been rejected by everyone who loves you."},
-  {stamp:"APPROVED", text:"Please proceed directly to the part where you choose peace."},
-  {stamp:"DENIED", text:"Your emotional support evidence folder is impressive but unnecessary."},
-  {stamp:"APPROVED", text:"The Department finds your boss guilty of Crimes Against Fridays."},
-  {stamp:"DENIED", text:"This person has mistaken your patience for a public utility."},
-  {stamp:"APPROVED", text:"You may leave them on read and call it self-preservation."},
-  {stamp:"PENDING", text:"This is either a felony or Thanksgiving. More information is required."},
-  {stamp:"APPROVED", text:"Your Chihuahua has reviewed the evidence and recommends chicken nuggets."},
-  {stamp:"DENIED", text:"The apology you are waiting for is currently unavailable."},
-  {stamp:"APPROVED", text:"You may stop attending arguments you were never invited to win."},
-  {stamp:"DENIED", text:"The Department cannot approve a decision made after 10 PM."},
-  {stamp:"APPROVED", text:"You may blame the moon, your schedule, or a vague administrative error."},
-  {stamp:"YIKES", text:"This file has been escalated to the Bureau of Absolutely Not."},
-  {stamp:"APPROVED", text:"Congratulations. Your silence has been entered into evidence."},
-  {stamp:"DENIED", text:"You are not required to explain a boundary like it is a hostage negotiation."},
-  {stamp:"APPROVED", text:"This matter has been resolved by choosing yourself and being mildly smug about it."},
-  {stamp:"DENIED", text:"Their potential is not a legally binding contract."},
-  {stamp:"APPROVED", text:"You may now delete the screenshot and reclaim seven inches of brain space."},
-  {stamp:"DENIED", text:"No, you cannot fix them with patience and a Canva graphic."},
-  {stamp:"APPROVED", text:"The Department supports your decision to make this someone else's problem."}
+const stamps = [
+"APPROVED",
+"DENIED",
+"REVIEWED",
+"ABSURD",
+"SUSPICIOUS",
+"UNNECESSARY",
+"ESCALATED",
+"CASE CLOSED"
 ];
 
-const signatures = [
-  "Barbara, Senior Appeals Specialist, probably",
-  "Greg, Assistant Director of Avoidable Consequences",
-  "Sheila, Records Department, unsupervised",
-  "Carl, Temporary Stamp Operator",
-  "Denise, Bureau of No Thank You",
-  "Martin, Office of Regret Prevention",
-  "Linda, Deputy Commissioner of Side-Eye",
-  "Pam, Director of Forms Nobody Reads",
-  "Rhonda, Chairwoman of Absolutely Not",
-  "Earl, Departmental Witness"
+const decisions = [
+"Your appeal has been denied because you absolutely saw this coming.",
+"Your appeal has been approved. Someone else is officially the problem.",
+"The department recommends not sending that text.",
+"You are correct. Unfortunately, that changes nothing.",
+"This situation has been promoted from awkward to historic.",
+"The committee laughed for three straight minutes.",
+"Your request has been forwarded to Future You. Best of luck explaining it.",
+"This matter requires one iced coffee and a locked phone.",
+"You already knew the answer before filing this appeal.",
+"The department finds that everyone is doing too much.",
+"You have been granted permission to stop explaining yourself.",
+"Your complaint is valid, but your delivery may need supervision.",
+"This person has been placed on emotional probation.",
+"You are not required to attend every argument you are invited to.",
+"The department recommends a nap before any further decisions.",
+"This relationship has been placed under investigation.",
+"The court would like to know why the first twelve red flags were ignored.",
+"Motion denied. You are being dramatic. Respectfully.",
+"You do not need revenge. You need distance and possibly a sandwich.",
+"The department has ruled that silence is the correct response.",
+"You may complain for exactly seventeen minutes.",
+"The appeal is approved, but only because the situation is ridiculous.",
+"You are forbidden from writing another paragraph tonight.",
+"This is either a felony or Thanksgiving. We require more details.",
+"Your boss has been found guilty of Crimes Against Fridays.",
+"Your ex has been sentenced to explaining what they meant by 'k.'",
+"The department cannot fix this. It can only witness it.",
+"After careful review, the answer is still absolutely not.",
+"The paperwork says you should mind your blood pressure.",
+"Your emotional support Chihuahua has reviewed the evidence and recommends chicken nuggets.",
+"This has been classified as a character-building event. Nobody asked for it.",
+"The committee has decided you deserve peace and maybe a dramatic exit.",
+"This appeal has been approved under the statute of 'I Tried.'",
+"The department finds that you were trying your best under questionable conditions.",
+"You are hereby released from caring more than the other person.",
+"The evidence suggests you should stop volunteering for nonsense.",
+"We regret to inform you that you were right.",
+"We regret to inform you that being right is not always satisfying.",
+"This case has been closed due to excessive foolishness.",
+"The official recommendation is to walk away before you start naming names.",
+"The department cannot legally recommend pettiness, but we understand the temptation.",
+"Your situation has been reviewed by three imaginary employees and one very tired intern.",
+"The intern quit.",
+"Your appeal has been delayed because Carl lost the folder.",
+"Sheila from Records has questions.",
+"Barbara has stamped this twice for emphasis.",
+"Greg says this is above his pay grade.",
+"The office raccoon has escaped with your paperwork.",
+"Your complaint has been accepted into evidence and immediately side-eyed.",
+"The department recommends fewer explanations and more exits.",
+"You are not crazy. You may be overthinking, but you are not crazy.",
+"This file smells like a boundary issue.",
+"Permission granted to stop answering.",
+"Permission granted to leave them on read.",
+"Permission granted to choose peace and mute the noise.",
+"The department finds that you have suffered enough.",
+"You may now act like you did not see that message.",
+"This situation has been marked 'Not My Circus' for processing.",
+"Your appeal has been approved because honestly, what was that?",
+"The answer is no. The full answer is no thank you.",
+"A full investigation found that the math is not mathing.",
+"The department has no notes except please stop doing this to yourself.",
+"You may proceed, but only after eating real food.",
+"The committee recommends staying out of this one.",
+"The department has determined this is not your problem to solve.",
+"Your complaint is valid. Your patience is suspicious.",
+"This case has been referred to the Bureau of Absolutely Not.",
+"You have been awarded one boundary and a firm tone.",
+"The department finds your concern reasonable and their behavior weird.",
+"Appeal granted. Exit quietly and take your charger.",
+"The situation is messy, but your instincts are not.",
+"The department recommends not explaining the same thing for the sixth time.",
+"You may retire from being the responsible one for the evening.",
+"This case is now sealed due to embarrassment.",
+"The official ruling is: let them be wrong.",
+"This has been reviewed, stamped, and judged accordingly.",
+"The department suggests taking the high road only if there is parking.",
+"Your appeal was strong. Your choices were questionable.",
+"The evidence shows a pattern, and the pattern is wearing tap shoes.",
+"You have been granted one dramatic sigh and no further action.",
+"The department recommends a clean exit and no forwarding address.",
+"This matter has been classified as 'Why Are People Like This?'",
+"We are unable to locate the part where this is your fault.",
+"This is not closure. This is a lesson wearing a fake mustache.",
+"The department has determined that your peace is worth more than the explanation.",
+"This case has been approved for immediate detachment.",
+"Final ruling: stop auditioning for people who already showed you the script.",
+"This appeal is denied because you are trying to resurrect a dead conversation.",
+"This appeal is approved because somebody had to say it.",
+"The department recommends deleting the draft and stepping away from the keyboard.",
+"This is above our emotional budget.",
+"The printer jammed while trying to process this foolishness.",
+"A hearing has been scheduled for never.",
+"The official answer is: absolutely not today.",
+"The department supports your right to be unavailable.",
+"The court finds the defendant guilty of wasting your time.",
+"The department recommends no contact with the nonsense.",
+"Your appeal has been reviewed by Brenda. Brenda is tired.",
+"The committee agrees that this was weird.",
+"The committee also agrees that you should not make it weirder.",
+"This ruling is final unless you complain louder.",
+"The department has awarded you the right to say, 'That does not work for me.'",
+"The evidence was thin, but the audacity was abundant.",
+"This appeal has been stamped for theatrical purposes.",
+"Your situation has been upgraded to 'I need to sit down.'",
+"The department recommends stepping away before you become the headline.",
+"The final ruling is simple: protect your peace and your passwords.",
+"The department finds that somebody owes you an apology and it may never arrive.",
+"This appeal has been approved in spirit and denied in paperwork.",
+"You may now close the tab and make a better decision.",
+"This case has been ruled a learning experience with poor lighting.",
+"The department recommends asking yourself why you are doing detective work.",
+"No further testimony is needed. The screenshot was enough.",
+"The court accepts your evidence and your dramatic pause.",
+"Your appeal has been denied due to repeated failure to leave well enough alone.",
+"Your appeal has been approved because, frankly, that was rude.",
+"The department recommends less access to you.",
+"This matter has been forwarded to the Office of People Who Need to Get a Grip.",
+"Final ruling: not your circus, not your paperwork.",
+"The evidence suggests that blocking may be a public service.",
+"You have unlocked the rare achievement: Finally Had Enough.",
+"The department recommends choosing silence, but make it pointed.",
+"This appeal is approved on the grounds that you are tired.",
+"The committee has reached a verdict: go where you are not confused.",
+"This case has been denied because you are trying to negotiate with a brick wall.",
+"The department recommends not attending the argument Olympics.",
+"The office seal has fallen off, but the ruling stands.",
+"The final answer is no, and we are proud of you for asking.",
+"This appeal was unnecessary. You already had permission.",
+"The department has ruled that you may leave the nonsense exactly where you found it."
 ];
 
-const caseNo = document.getElementById('caseNo');
-const caseNo2 = document.getElementById('caseNo2');
-const fileBtn = document.getElementById('fileBtn');
-const againBtn = document.getElementById('againBtn');
-const loadingBox = document.getElementById('loadingBox');
-const resultBox = document.getElementById('resultBox');
-const loadMsg = document.getElementById('loadMsg');
-const progressBar = document.getElementById('progressBar');
-const stamp = document.getElementById('stamp');
-const reason = document.getElementById('reason');
-const signature = document.getElementById('signature');
+const employees = [
+"Barbara, Senior Appeals Specialist, Probably",
+"Greg, Assistant Director of Avoidable Problems",
+"Sheila from Records",
+"Carl, Folder Recovery Unit",
+"Brenda, Temporary Supervisor of Permanent Issues",
+"Diane, Office of Not Today",
+"Linda, Department of Raised Eyebrows",
+"Martin, Bureau of Regrettable Choices",
+"Janet, Complaint Window Three",
+"Novia, Lead Investigator"
+];
 
-function randomItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function newCase(){
-  const n = Math.floor(100000 + Math.random()*900000);
-  const c = `NHFK-${new Date().getFullYear()}-${n}`;
-  caseNo.textContent = c;
-  caseNo2.textContent = c;
+function newCaseNumber() {
+const number = Math.floor(100000 + Math.random() * 900000);
+document.getElementById("caseNumber").textContent = "NHFK-" + number;
 }
-function reset(){
-  newCase();
-  resultBox.classList.remove('active');
-  loadingBox.classList.remove('active');
-  progressBar.style.width = '0%';
-  loadMsg.textContent = 'Opening your file...';
-  document.getElementById('appeal').focus();
+
+function pick(array) {
+return array[Math.floor(Math.random() * array.length)];
 }
-function fileAppeal(){
-  resultBox.classList.remove('active');
-  loadingBox.classList.add('active');
-  fileBtn.disabled = true;
-  let steps = 0;
-  const chosen = [...loadingMessages].sort(() => Math.random() - .5).slice(0, 6);
-  const timer = setInterval(() => {
-    loadMsg.textContent = chosen[steps] || 'Preparing your final decision...';
-    progressBar.style.width = `${Math.min(100, (steps+1) * 17)}%`;
-    steps++;
-    if(steps >= 6){
-      clearInterval(timer);
-      setTimeout(showResult, 350);
-    }
-  }, 620);
+
+function fileAppeal() {
+const reviewBox = document.getElementById("reviewBox");
+const resultBox = document.getElementById("resultBox");
+
+reviewBox.classList.remove("hidden");
+resultBox.classList.add("hidden");
+reviewBox.innerHTML = "";
+
+const chosenMessages = [...loadingMessages].sort(() => 0.5 - Math.random()).slice(0, 6);
+let i = 0;
+
+const interval = setInterval(() => {
+reviewBox.innerHTML += chosenMessages[i] + "<br>";
+i++;
+
+if (i >= chosenMessages.length) {
+clearInterval(interval);
+setTimeout(showResult, 500);
 }
-function showResult(){
-  const v = randomItem(verdicts);
-  stamp.textContent = v.stamp;
-  reason.textContent = v.text;
-  signature.textContent = randomItem(signatures);
-  loadingBox.classList.remove('active');
-  resultBox.classList.add('active');
-  fileBtn.disabled = false;
+}, 450);
 }
-fileBtn.addEventListener('click', fileAppeal);
-againBtn.addEventListener('click', reset);
-newCase();
+
+function showResult() {
+document.getElementById("stamp").textContent = pick(stamps);
+document.getElementById("decision").textContent = "FINAL DECISION";
+document.getElementById("reason").textContent = pick(decisions);
+document.getElementById("signature").innerHTML =
+"Filed by:<br>" + pick(employees);
+
+document.getElementById("resultBox").classList.remove("hidden");
+}
+
+function resetAppeal() {
+document.getElementById("appealText").value = "";
+document.getElementById("reviewBox").classList.add("hidden");
+document.getElementById("resultBox").classList.add("hidden");
+document.getElementById("reviewBox").innerHTML = "";
+newCaseNumber();
+}
+
+newCaseNumber();
 </script>
 </body>
 </html>
