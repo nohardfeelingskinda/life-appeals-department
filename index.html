@@ -1,0 +1,676 @@
+﻿from pathlib import Path
+
+
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Life Appeals Department</title>
+<style>
+  * { box-sizing: border-box; }
+
+
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+      radial-gradient(circle at top left, rgba(139,0,0,.12), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(0,0,0,.10), transparent 30%),
+      #e7e2d6;
+    color: #1f1f1f;
+  }
+
+
+  .page {
+    max-width: 920px;
+    margin: 28px auto;
+    padding: 20px;
+  }
+
+
+  .office {
+    background: #f8f5ed;
+    border: 4px double #222;
+    padding: 28px;
+    box-shadow: 8px 8px 0 #333;
+    position: relative;
+    overflow: hidden;
+  }
+
+
+  .office:before {
+    content: "OFFICIAL";
+    position: absolute;
+    top: 95px;
+    right: -45px;
+    transform: rotate(35deg);
+    font-family: Arial, sans-serif;
+    font-weight: 900;
+    letter-spacing: 4px;
+    font-size: 44px;
+    color: rgba(139,0,0,.08);
+    border: 6px solid rgba(139,0,0,.08);
+    padding: 10px 22px;
+  }
+
+
+  .seal {
+    text-align: center;
+    font-size: 44px;
+    margin-bottom: 2px;
+  }
+
+
+  h1 {
+    text-align: center;
+    margin: 4px 0;
+    letter-spacing: 2px;
+    font-size: 36px;
+    line-height: 1.05;
+  }
+
+
+  h2 {
+    text-align: center;
+    margin: 0;
+    font-size: 18px;
+    font-weight: normal;
+  }
+
+
+  .small {
+    text-align: center;
+    font-size: 13px;
+    margin: 8px 0 24px;
+    font-family: Arial, sans-serif;
+  }
+
+
+  .casebox {
+    border: 2px solid #333;
+    padding: 12px;
+    background: #fff;
+    font-family: "Courier New", monospace;
+    margin: 20px 0;
+  }
+
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-top: 18px;
+  }
+
+
+  select, textarea, input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 2px solid #333;
+    background: #fff;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  }
+
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+
+  button {
+    margin-top: 22px;
+    width: 100%;
+    padding: 16px;
+    background: #222;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+  }
+
+
+  button:hover { background: #000; }
+
+
+  .secondary {
+    background: #6b0000;
+  }
+
+
+  .secondary:hover {
+    background: #520000;
+  }
+
+
+  .hidden { display: none; }
+
+
+  .review {
+    margin-top: 25px;
+    padding: 18px;
+    border: 2px dashed #333;
+    background: #fff;
+    font-family: "Courier New", monospace;
+    min-height: 110px;
+    line-height: 1.55;
+  }
+
+
+  .result {
+    margin-top: 25px;
+    padding: 24px;
+    background: #fff;
+    border: 3px solid #111;
+    text-align: center;
+    position: relative;
+  }
+
+
+  .stamp {
+    display: inline-block;
+    border: 5px solid #8b0000;
+    color: #8b0000;
+    padding: 10px 20px;
+    font-size: 34px;
+    font-weight: bold;
+    transform: rotate(-7deg);
+    margin-bottom: 20px;
+    animation: slam .25s ease-out;
+    font-family: Arial, sans-serif;
+  }
+
+
+  @keyframes slam {
+    0% { transform: scale(3) rotate(-7deg); opacity: 0; }
+    100% { transform: scale(1) rotate(-7deg); opacity: 1; }
+  }
+
+
+  .decision {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 12px 0;
+  }
+
+
+  .reason {
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+
+  .signature {
+    margin-top: 25px;
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    text-align: left;
+    border-top: 1px solid #333;
+    padding-top: 14px;
+  }
+
+
+  .fine-print {
+    margin-top: 18px;
+    padding: 12px;
+    background: #eee8d7;
+    border: 1px solid #bbb;
+    font-size: 12px;
+    line-height: 1.45;
+    font-family: Arial, sans-serif;
+  }
+
+
+  .footer {
+    margin-top: 25px;
+    font-size: 12px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+
+
+  .mini-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+  }
+
+
+  .badge {
+    display: inline-block;
+    padding: 6px 9px;
+    border: 1px solid #333;
+    background: #fff;
+    font-family: "Courier New", monospace;
+  }
+
+
+  .rare {
+    margin-top: 18px;
+    padding: 14px;
+    background: #fff7ca;
+    border: 2px solid #9b7a00;
+    font-family: "Courier New", monospace;
+  }
+
+
+  @media (max-width: 650px) {
+    .page { padding: 12px; margin: 10px auto; }
+    .office { padding: 18px; box-shadow: 4px 4px 0 #333; }
+    h1 { font-size: 27px; }
+    .stamp { font-size: 26px; }
+    .form-grid { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+</head>
+
+
+<body>
+<div class="page">
+  <div class="office">
+    <div class="seal">🏛️</div>
+    <h1>LIFE APPEALS DEPARTMENT</h1>
+    <h2>Department of Questionable Decisions</h2>
+    <p class="small">Official Appeals Portal | Established Whenever This Became Necessary</p>
+
+
+    <div class="casebox">
+      CASE NUMBER: <span id="caseNumber"></span><br>
+      STATUS: <span id="caseStatus">PENDING DRAMA REVIEW</span>
+    </div>
+
+
+    <div class="form-grid">
+      <div>
+        <label for="category">Select your complaint category:</label>
+        <select id="category">
+          <option>Relationship</option>
+          <option>Family</option>
+          <option>Work</option>
+          <option>Neighbor</option>
+          <option>Social Media</option>
+          <option>General Nonsense</option>
+          <option>I Have No Idea What Is Happening</option>
+        </select>
+      </div>
+
+
+      <div>
+        <label for="urgency">How urgent is this?</label>
+        <select id="urgency">
+          <option>Mildly Annoying</option>
+          <option>I Need a Ruling</option>
+          <option>Somebody Has Audacity</option>
+          <option>Emergency Side-Eye</option>
+          <option>Barbara Needs to See This</option>
+        </select>
+      </div>
+    </div>
+
+
+    <label for="appealText">Briefly explain your situation:</label>
+    <textarea id="appealText" placeholder="Type your appeal here. The department is allegedly listening."></textarea>
+
+
+    <div class="mini-row">
+      <span class="badge">Form LAD-404</span>
+      <span class="badge">Processing Fee: $0</span>
+      <span class="badge">Authority Level: Imaginary</span>
+    </div>
+
+
+    <button onclick="fileAppeal()">FILE APPEAL</button>
+
+
+    <div id="reviewBox" class="review hidden"></div>
+
+
+    <div id="resultBox" class="result hidden">
+      <div id="stamp" class="stamp"></div>
+      <div id="decision" class="decision"></div>
+      <div id="reason" class="reason"></div>
+      <div id="rareBox" class="rare hidden"></div>
+      <div id="signature" class="signature"></div>
+      <button class="secondary" onclick="resetAppeal()">FILE ANOTHER APPEAL</button>
+    </div>
+
+
+    <div class="fine-print">
+      Disclaimer: This department has no authority, no credentials, and one suspiciously loud printer.
+      Decisions are final unless you refresh the page or complain with additional punctuation.
+    </div>
+
+
+    <p class="footer">
+      No Hard Feelings...Kinda | Department of Questionable Decisions
+    </p>
+  </div>
+</div>
+
+
+<script>
+const loadingMessages = [
+  "Opening your file...",
+  "Assigning your case to someone with a pen...",
+  "Looking for a qualified adult...",
+  "Locating the form nobody asked for...",
+  "Reviewing the evidence...",
+  "Questioning the timeline...",
+  "Checking for common sense...",
+  "Sending paperwork to the wrong office...",
+  "Recovering paperwork from the wrong office...",
+  "Consulting a decorative clipboard...",
+  "Pretending this is under control...",
+  "Making several unnecessary copies...",
+  "Searching for accountability...",
+  "Pausing for dramatic effect...",
+  "Asking Barbara if she has seen this before...",
+  "Barbara has seen this before...",
+  "Checking whether this could have been avoided...",
+  "It could have been avoided...",
+  "Reviewing your right to be annoyed...",
+  "Preparing official nonsense...",
+  "Calling Greg from the basement office...",
+  "Greg has concerns...",
+  "Stamping something for confidence...",
+  "Unstamping it because Diane objected...",
+  "Re-stamping it because Diane left the room...",
+  "Checking the emotional damage index...",
+  "Locating the complaint window...",
+  "The complaint window is closed...",
+  "Opening a different complaint window...",
+  "Running this past Brenda...",
+  "Brenda blinked twice...",
+  "Consulting the Bureau of Absolutely Not...",
+  "Someone said 'circle back' and has been removed...",
+  "Checking whether this is your problem...",
+  "It is not looking promising...",
+  "Trying to find the part where that made sense...",
+  "Unable to locate it...",
+  "Dusting off the emergency stamp...",
+  "Reviewing the screenshots in chronological order...",
+  "Admitting the screenshots are doing a lot of work...",
+  "Preparing a ruling with unnecessary confidence..."
+];
+
+
+const stamps = [
+  "APPROVED",
+  "DENIED",
+  "REVIEWED",
+  "ABSURD",
+  "SUSPICIOUS",
+  "UNNECESSARY",
+  "ESCALATED",
+  "CASE CLOSED",
+  "ABSOLUTELY NOT",
+  "YIKES"
+];
+
+
+const decisions = [
+  "Your appeal has been denied because you absolutely saw this coming.",
+  "Your appeal has been approved. Someone else is officially the problem.",
+  "The department recommends not sending that text.",
+  "You are correct. Unfortunately, that changes nothing.",
+  "This situation has been promoted from awkward to historic.",
+  "The committee laughed for three straight minutes.",
+  "Your request has been forwarded to Future You. Best of luck explaining it.",
+  "This matter requires one iced coffee and a locked phone.",
+  "You already knew the answer before filing this appeal.",
+  "The department finds that everyone is doing too much.",
+  "You have been granted permission to stop explaining yourself.",
+  "Your complaint is valid, but your delivery may need supervision.",
+  "This person has been placed on emotional probation.",
+  "You are not required to attend every argument you are invited to.",
+  "The department recommends a nap before any further decisions.",
+  "This relationship has been placed under investigation.",
+  "The court would like to know why the first twelve red flags were ignored.",
+  "Motion denied. You are being dramatic. Respectfully.",
+  "You do not need revenge. You need distance and possibly a sandwich.",
+  "The department has ruled that silence is the correct response.",
+  "You may complain for exactly seventeen minutes.",
+  "The appeal is approved, but only because the situation is ridiculous.",
+  "You are forbidden from writing another paragraph tonight.",
+  "This is either a felony or Thanksgiving. We require more details.",
+  "Your boss has been found guilty of Crimes Against Fridays.",
+  "Your ex has been sentenced to explaining what they meant by 'k.'",
+  "The department cannot fix this. It can only witness it.",
+  "After careful review, the answer is still absolutely not.",
+  "The paperwork says you should mind your blood pressure.",
+  "Your emotional support Chihuahua has reviewed the evidence and recommends chicken nuggets.",
+  "This has been classified as a character-building event. Nobody asked for it.",
+  "The committee has decided you deserve peace and maybe a dramatic exit.",
+  "This appeal has been approved under the statute of 'I Tried.'",
+  "The department finds that you were trying your best under questionable conditions.",
+  "You are hereby released from caring more than the other person.",
+  "The evidence suggests you should stop volunteering for nonsense.",
+  "We regret to inform you that you were right.",
+  "We regret to inform you that being right is not always satisfying.",
+  "This case has been closed due to excessive foolishness.",
+  "The official recommendation is to walk away before you start naming names.",
+  "The department cannot legally recommend pettiness, but we understand the temptation.",
+  "Your situation has been reviewed by three imaginary employees and one very tired intern.",
+  "The intern quit.",
+  "Your appeal has been delayed because Carl lost the folder.",
+  "Sheila from Records has questions.",
+  "Barbara has stamped this twice for emphasis.",
+  "Greg says this is above his pay grade.",
+  "The office raccoon has escaped with your paperwork.",
+  "Your complaint has been accepted into evidence and immediately side-eyed.",
+  "The department recommends fewer explanations and more exits.",
+  "You are not crazy. You may be overthinking, but you are not crazy.",
+  "This file smells like a boundary issue.",
+  "Permission granted to stop answering.",
+  "Permission granted to leave them on read.",
+  "Permission granted to choose peace and mute the noise.",
+  "The department finds that you have suffered enough.",
+  "You may now act like you did not see that message.",
+  "This situation has been marked 'Not My Circus' for processing.",
+  "Your appeal has been approved because honestly, what was that?",
+  "The answer is no. The full answer is no thank you.",
+  "A full investigation found that the math is not mathing.",
+  "The department has no notes except please stop doing this to yourself.",
+  "You may proceed, but only after eating real food.",
+  "The committee recommends staying out of this one.",
+  "The department has determined this is not your problem to solve.",
+  "Your complaint is valid. Your patience is suspicious.",
+  "This case has been referred to the Bureau of Absolutely Not.",
+  "You have been awarded one boundary and a firm tone.",
+  "The department finds your concern reasonable and their behavior weird.",
+  "Appeal granted. Exit quietly and take your charger.",
+  "The situation is messy, but your instincts are not.",
+  "The department recommends not explaining the same thing for the sixth time.",
+  "You may retire from being the responsible one for the evening.",
+  "This case is now sealed due to embarrassment.",
+  "The official ruling is: let them be wrong.",
+  "This has been reviewed, stamped, and judged accordingly.",
+  "The department suggests taking the high road only if there is parking.",
+  "Your appeal was strong. Your choices were questionable.",
+  "The evidence shows a pattern, and the pattern is wearing tap shoes.",
+  "You have been granted one dramatic sigh and no further action.",
+  "The department recommends a clean exit and no forwarding address.",
+  "This matter has been classified as 'Why Are People Like This?'",
+  "We are unable to locate the part where this is your fault.",
+  "This is not closure. This is a lesson wearing a fake mustache.",
+  "The department has determined that your peace is worth more than the explanation.",
+  "This case has been approved for immediate detachment.",
+  "Final ruling: stop auditioning for people who already showed you the script.",
+  "This appeal is denied because you are trying to resurrect a dead conversation.",
+  "This appeal is approved because somebody had to say it.",
+  "The department recommends deleting the draft and stepping away from the keyboard.",
+  "This is above our emotional budget.",
+  "The printer jammed while trying to process this foolishness.",
+  "A hearing has been scheduled for never.",
+  "The official answer is: absolutely not today.",
+  "The department supports your right to be unavailable.",
+  "The court finds the defendant guilty of wasting your time.",
+  "The department recommends no contact with the nonsense.",
+  "Your appeal has been reviewed by Brenda. Brenda is tired.",
+  "The committee agrees that this was weird.",
+  "The committee also agrees that you should not make it weirder.",
+  "This ruling is final unless you complain louder.",
+  "The department has awarded you the right to say, 'That does not work for me.'",
+  "The evidence was thin, but the audacity was abundant.",
+  "This appeal has been stamped for theatrical purposes.",
+  "Your situation has been upgraded to 'I need to sit down.'",
+  "The department recommends stepping away before you become the headline.",
+  "The final ruling is simple: protect your peace and your passwords.",
+  "The department finds that somebody owes you an apology and it may never arrive.",
+  "This appeal has been approved in spirit and denied in paperwork.",
+  "You may now close the tab and make a better decision.",
+  "The department recommends asking yourself why you are doing detective work.",
+  "No further testimony is needed. The screenshot was enough.",
+  "The court accepts your evidence and your dramatic pause.",
+  "Your appeal has been denied due to repeated failure to leave well enough alone.",
+  "Your appeal has been approved because, frankly, that was rude.",
+  "The department recommends less access to you.",
+  "This matter has been forwarded to the Office of People Who Need to Get a Grip.",
+  "Final ruling: not your circus, not your paperwork.",
+  "The evidence suggests that blocking may be a public service.",
+  "You have unlocked the rare achievement: Finally Had Enough.",
+  "The department recommends choosing silence, but make it pointed.",
+  "This appeal is approved on the grounds that you are tired.",
+  "The committee has reached a verdict: go where you are not confused.",
+  "This case has been denied because you are trying to negotiate with a brick wall.",
+  "The department recommends not attending the argument Olympics.",
+  "The office seal has fallen off, but the ruling stands.",
+  "The final answer is no, and we are proud of you for asking.",
+  "This appeal was unnecessary. You already had permission.",
+  "The department has ruled that you may leave the nonsense exactly where you found it.",
+  "We need everybody involved to go home and think about what they have done.",
+  "The ruling is not legally binding, but it is emotionally accurate.",
+  "Your appeal has been approved because the audacity alone required documentation.",
+  "The department recommends putting yourself on the schedule for once.",
+  "This person has been fined one sincere apology and a long look inward.",
+  "We have reviewed the matter and would like everyone to lower their voice.",
+  "This file has been placed in the cabinet labeled 'Absolutely Not Again.'",
+  "Your instincts filed this appeal before you did.",
+  "The department recognizes your right to stop making this make sense.",
+  "This is a classic case of someone confusing access with entitlement."
+];
+
+
+const employees = [
+  "Barbara, Senior Appeals Specialist, Probably",
+  "Greg, Assistant Director of Avoidable Problems",
+  "Sheila from Records",
+  "Carl, Folder Recovery Unit",
+  "Brenda, Temporary Supervisor of Permanent Issues",
+  "Diane, Office of Not Today",
+  "Linda, Department of Raised Eyebrows",
+  "Martin, Bureau of Regrettable Choices",
+  "Janet, Complaint Window Three",
+  "Novia, Lead Investigator"
+];
+
+
+const rareMessages = [
+  "GOLDEN COMPLAINT FOUND: Your prize is absolutely nothing, but the department is weirdly proud of you.",
+  "RARE FILE ERROR: Your complaint was too accurate and briefly scared the committee.",
+  "EASTER EGG: Barbara has left the building. Please direct all feelings to Greg.",
+  "SECRET RULING: You may be right, but please do not build a PowerPoint about it.",
+  "RARE ACHIEVEMENT UNLOCKED: You made the intern whisper, 'What even is this?'"
+];
+
+
+function newCaseNumber() {
+  const number = Math.floor(100000 + Math.random() * 900000);
+  document.getElementById("caseNumber").textContent = "NHFK-" + number;
+  document.getElementById("caseStatus").textContent = "PENDING DRAMA REVIEW";
+}
+
+
+function pick(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+
+function fileAppeal() {
+  const reviewBox = document.getElementById("reviewBox");
+  const resultBox = document.getElementById("resultBox");
+  const rareBox = document.getElementById("rareBox");
+
+
+  reviewBox.classList.remove("hidden");
+  resultBox.classList.add("hidden");
+  rareBox.classList.add("hidden");
+  rareBox.textContent = "";
+  reviewBox.innerHTML = "";
+  document.getElementById("caseStatus").textContent = "UNDER REVIEW";
+
+
+  const chosenMessages = [...loadingMessages].sort(() => 0.5 - Math.random()).slice(0, 7);
+  let i = 0;
+
+
+  const interval = setInterval(() => {
+    reviewBox.innerHTML += chosenMessages[i] + "<br>";
+    i++;
+
+
+    if (i >= chosenMessages.length) {
+      clearInterval(interval);
+      setTimeout(showResult, 500);
+    }
+  }, 390);
+}
+
+
+function showResult() {
+  document.getElementById("stamp").textContent = pick(stamps);
+  document.getElementById("decision").textContent = "FINAL DECISION";
+  document.getElementById("reason").textContent = pick(decisions);
+  document.getElementById("signature").innerHTML =
+    "Filed by:<br>" + pick(employees) + "<br><br>Signature: ________________________";
+
+
+  if (Math.random() < 0.08) {
+    const rareBox = document.getElementById("rareBox");
+    rareBox.textContent = pick(rareMessages);
+    rareBox.classList.remove("hidden");
+  }
+
+
+  document.getElementById("caseStatus").textContent = "CLOSED WITH CONFIDENCE";
+  document.getElementById("resultBox").classList.remove("hidden");
+}
+
+
+function resetAppeal() {
+  document.getElementById("appealText").value = "";
+  document.getElementById("reviewBox").classList.add("hidden");
+  document.getElementById("resultBox").classList.add("hidden");
+  document.getElementById("reviewBox").innerHTML = "";
+  newCaseNumber();
+}
+
+
+newCaseNumber();
+</script>
+</body>
+</html>
+'''
+
+
+path = Path("/mnt/data/index.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created {path} ({path.stat().st_size} bytes)")
