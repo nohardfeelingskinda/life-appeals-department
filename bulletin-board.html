@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Bulletin Board</title>
+<style>
+body{margin:0;background:#d7ccb4;font-family:Georgia,serif;color:#222}
+.wrap{max-width:1000px;margin:24px auto;padding:18px}
+.board{background:#f8f2e6;border:5px double #222;padding:24px;box-shadow:8px 8px 0 #444}
+h1{text-align:center;margin:0}
+.sub{text-align:center;font-family:Arial,sans-serif;margin:8px 0 20px}
+nav{text-align:center;margin-bottom:20px}
+nav a{display:inline-block;margin:4px;padding:8px 12px;background:#222;color:#fff;text-decoration:none;font:700 12px Arial}
+.note{background:#fff;border-left:8px solid #444;padding:14px;margin:16px 0}
+.note h3{margin:0 0 8px}
+footer{text-align:center;border-top:3px double #222;padding-top:12px;margin-top:20px;font:12px Arial}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:#fff;border:1px solid #555;padding:10px;font-family:"Courier New",monospace}
+@media(max-width:700px){.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="board">
+<h1>📌 DAILY BULLETIN BOARD</h1>
+<div class="sub">Department of Questionable Decisions</div>
+
+<nav>
+<a href="index.html">🏛️ Lobby</a>
+<a href="directory.html">📂 Directory</a>
+<a href="employee-records.html">👥 Employee Records</a>
+<a href="bulletin-board.html">📌 Bulletin Board</a>
+</nav>
+
+<div class="note"><h3>📣 Today's Building Notice</h3><p id="notice"></p></div>
+<div class="note"><h3>📨 Interoffice Memo</h3><p id="memo"></p></div>
+<div class="note"><h3>☕ Coffee Situation</h3><p id="coffee"></p></div>
+<div class="note"><h3>🔧 Facilities Update</h3><p id="facility"></p></div>
+
+<h2>Official Building Statistics</h2>
+<div class="stats">
+<div class="stat">Appeals Filed Today: <span id="appeals"></span></div>
+<div class="stat">Appeals Approved: <span id="approved"></span></div>
+<div class="stat">Times Greg Said "I'll look into it": <span id="greg"></span></div>
+<div class="stat">Job Titles Philip Invented: <span id="philip"></span></div>
+<div class="stat">Susan Complaints Today: <span id="susan"></span></div>
+<div class="stat">Current Moo Cow Security Level: <span id="moocow"></span></div>
+</div>
+
+<footer>Employees are reminded that reading the bulletin board does not count as working.</footer>
+</div></div>
+<script>
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+notice.innerHTML=pick([
+"Employees are reminded that <b>\"Watch this\"</b> is not an approved safety procedure.",
+"Conference Room B has been reserved for an unnecessary meeting about unnecessary meetings.",
+"Please stop submitting anonymous complaints signed <i>Anonymous</i>.",
+"Barbara has confirmed that sighing dramatically is still not a filing system.",
+"Visitors are asked to stop asking Greg if he's finished looking into it."
+]);
+memo.innerHTML=pick([
+"<b>FROM:</b> Barbara<br><b>TO:</b> Philip<br><br>No.",
+"<b>FROM:</b> Sheila<br><b>TO:</b> Carl<br><br>It's literally on your desk.",
+"<b>FROM:</b> Facilities<br><b>TO:</b> Everyone<br><br>The mysterious beeping remains mysterious.",
+"<b>FROM:</b> Barbara<br><b>TO:</b> Everyone<br><br>If you borrowed my stapler, congratulations on your poor decision."
+]);
+coffee.innerHTML=pick([
+"Coffee has been upgraded from <i>Concerning</i> to <i>Drinkable</i>.",
+"Someone made decaf without labeling it. Counseling is available.",
+"Barbara hid the good coffee again.",
+"The coffee machine has requested respect."
+]);
+facility.innerHTML=pick([
+"The hallway has denied making that noise.",
+"The copier insists the paper jam was mutual.",
+"The elevator has been repaired. Please stop congratulating it.",
+"Maintenance has asked Philip to stop helping."
+]);
+appeals.textContent=Math.floor(Math.random()*25+10);
+approved.textContent=Math.floor(Math.random()*3);
+greg.textContent=Math.floor(Math.random()*18+8);
+philip.textContent=Math.floor(Math.random()*40+470);
+susan.textContent=Math.floor(Math.random()*60+15);
+moocow.textContent=pick(["Guarded","Elevated","Maximum","Snack Adjacent","Classified"]);
+</script>
+</body>
+</html>
