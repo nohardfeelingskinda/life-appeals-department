@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Building Directory | No Hard Feelings...Kinda</title>
+<style>
+:root{--paper:#f5eedb;--ink:#211d18;--red:#8e1717;--blue:#2b4d63;--tan:#e6dcc7}
+*{box-sizing:border-box}body{margin:0;background:var(--tan);color:var(--ink);font-family:Georgia,serif}
+main{max-width:1050px;margin:24px auto;background:var(--paper);border:5px double var(--ink);box-shadow:10px 10px 0 #0009;padding:26px}
+header{text-align:center;border-bottom:4px double var(--ink);padding-bottom:18px}.seal{font-size:46px}h1{font-size:40px;margin:5px 0}.sub{font-family:Arial,sans-serif}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.status div,.card,.floor{background:#fff;border:2px solid var(--ink);padding:12px}
+.small{display:block;font:10px Arial,sans-serif;letter-spacing:1px;color:#666;text-transform:uppercase}
+.layout{display:grid;grid-template-columns:1.35fr .85fr;gap:18px}.directory,.side{display:flex;flex-direction:column;gap:13px}
+.floor{display:grid;grid-template-columns:90px 1fr;padding:0;cursor:pointer}.floor:hover{transform:translateY(-2px);box-shadow:4px 4px 0 #0005}
+.floor b{background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Arial,sans-serif;padding:10px}
+.floor section{padding:14px}.floor h2{margin:0 0 6px;font-size:22px}.floor p{margin:0;line-height:1.4}
+.pill{display:inline-block;margin-top:8px;border:1px solid;padding:4px 7px;background:#eee7d3;font:700 10px Arial,sans-serif}
+.alert{background:#fff1f1;border:3px dashed var(--red);text-align:center}.alert strong{color:var(--red);font-family:Arial,sans-serif}
+.bulletin{background:#d9bd88;border:8px solid #7b5435}.note{background:#fff4a8;border:1px solid #8d7d3f;padding:13px;transform:rotate(-1deg);font:18px 'Comic Sans MS',cursive;box-shadow:3px 4px 0 #0003}
+.person{background:#f8f3e5;border:1px solid #817869;padding:10px;margin-top:8px}.person strong{font-size:18px}.role{font:12px Arial,sans-serif;color:#555;margin-top:3px}.detail{font-size:14px;margin-top:6px;line-height:1.35}
+button{width:100%;margin-top:11px;padding:12px;border:0;background:var(--ink);color:#fff;font:bold 14px Arial,sans-serif;cursor:pointer}
+footer{margin-top:20px;padding-top:13px;border-top:3px double;text-align:center;font:12px Arial,sans-serif;line-height:1.5}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.box{max-width:620px;background:var(--paper);border:5px double;padding:22px;box-shadow:9px 9px 0 #0009}.box button{background:var(--red)}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.status{grid-template-columns:1fr}}@media(max-width:520px){main{margin:8px;padding:15px;box-shadow:5px 5px 0 #0009}h1{font-size:29px}.floor{grid-template-columns:70px 1fr}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="seal">🏢</div><h1>BUILDING DIRECTORY</h1><div class="sub">Department of Questionable Decisions and Associated Offices Nobody Properly Authorized</div></header>
+
+<div class="status">
+<div><span class="small">Building Status</span><span id="building"></span></div>
+<div><span class="small">Now Serving</span><span id="serving"></span></div>
+<div><span class="small">Today's Supervisor</span><span id="supervisor"></span></div>
+</div>
+
+<div class="layout">
+<div class="directory">
+<div class="floor" onclick="office('Life Appeals Department','File a formal complaint about relationships, work, family, neighbors, the internet, or one of your own decisions. The ruling will be official according to absolutely no one.')"><b>FLOOR 7</b><section><h2>Life Appeals Department</h2><p>Official complaints, unnecessary paperwork, and rulings delivered with confidence.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Department of Questionable Decisions','Barbara runs it. Greg is looking into it. Carl misplaced it. Sheila knows exactly where it is.')"><b>FLOOR 6</b><section><h2>Department of Questionable Decisions</h2><p>Home office for Barbara, Greg, Sheila, Carl, Philip, and several forms no one understands.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Emotional Lost & Found','Currently holding abandoned boundaries, one left AirPod, four trains of thought, and somebody else’s confidence.')"><b>FLOOR 5</b><section><h2>Emotional Lost & Found</h2><p>Motivation, patience, missing chargers, dignity, and other frequently misplaced property.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Adult Achievement Office','Recognition for making a phone call, remembering why you entered a room, or not explaining yourself to someone committed to misunderstanding you.')"><b>FLOOR 4</b><section><h2>Adult Achievement Office</h2><p>Certificates issued for ordinary tasks performed under unreasonable emotional conditions.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Human Resources','HR reviewed your complaint and decided it would be easier if everyone pretended not to see it.')"><b>FLOOR 3</b><section><h2>Human Resources</h2><p>Currently forwarding all concerns to a different department.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Facebook Complaint Department','Staffed entirely by Susan, who is not technically staff. She has already commented and would like to know your source.')"><b>FLOOR 2</b><section><h2>Facebook Complaint Department</h2><p>Unsolicited opinions, suspicious punctuation, and arguments nobody was having.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Gift Shop','Souvenirs include one boundary, a commemorative clipboard, and a mug reading I Filed An Appeal And All I Got Was This Mug.')"><b>FLOOR 1</b><section><h2>Gift Shop</h2><p>Currently out of patience. Several other items remain under review.</p><span class="pill"></span></section></div>
+<div class="floor" onclick="office('Restricted Basement Offices','Includes the Department of Missing Left Socks, the Archive of Unsent Paragraphs, and one locked room Philip insists is a laboratory.')"><b>BASEMENT</b><section><h2>Restricted Offices</h2><p>Visitors must sign three forms and agree not to ask what Philip is building.</p><span class="pill"></span></section></div>
+</div>
+
+<div class="side">
+<div class="card alert"><strong>CAFETERIA CLOSED</strong><p id="microwave"></p><small>Philip remains prohibited from operating appliances with buttons.</small></div>
+
+<div class="card bulletin"><h3>📌 Daily Bulletin Board</h3><div class="note" id="bulletin"></div><button onclick="newBulletin()">CHECK FOR ANOTHER NOTICE</button></div>
+
+<div class="card"><h3>Employee Directory</h3>
+<div class="person"><strong>Barbara</strong><div class="role">Director of Things That Could Have Been Avoided</div><div class="detail" id="barbara"></div></div>
+<div class="person"><strong>Greg</strong><div class="role">Assistant Director of Looking Into It</div><div class="detail" id="greg"></div></div>
+<div class="person"><strong>Sheila</strong><div class="role">Keeper of the Files</div><div class="detail" id="sheila"></div></div>
+<div class="person"><strong>Carl</strong><div class="role">Records Management, Allegedly</div><div class="detail" id="carl"></div></div>
+<div class="person"><strong>Philip</strong><div class="role" id="philipTitle"></div><div class="detail" id="philip"></div></div>
+<div class="person"><strong>Susan from Facebook</strong><div class="role">Position: None</div><div class="detail" id="susan"></div></div>
+<div class="person"><strong>Novia</strong><div class="role">Lead Investigator</div><div class="detail" id="novia"></div></div>
+</div>
+
+<div class="card"><h3>Elevator Status</h3><p id="elevator"></p><p><code id="egg"></code></p><button onclick="refreshAll()">REFRESH DIRECTORY NONSENSE</button></div>
+</div>
+</div>
+
+<footer>Visitors are advised that any resemblance between our employees and real people is purely coincidental, except Susan. We all know a Susan.<br>Questions may be submitted in writing and ignored in the order received.</footer>
+</main>
+
+<div class="modal" id="modal" onclick="if(event.target.id==='modal')closeModal()"><div class="box"><h2 id="modalTitle"></h2><p id="modalText"></p><p><code id="fine"></code></p><button onclick="closeModal()">CLOSE FILE</button></div></div>
+
+<script>
+const p=a=>a[Math.floor(Math.random()*a.length)];
+const microwave=[
+"Permanently closed after Philip microwaved a lava lamp.",
+"Permanently closed after Philip microwaved glitter.",
+"Permanently closed after Philip microwaved a stress ball to see what would happen.",
+"Permanently closed after Philip reheated a scented candle because the room needed ambience.",
+"Permanently closed after Philip microwaved a Magic 8 Ball looking for faster answers.",
+"Permanently closed after Philip microwaved canned biscuits without opening the can.",
+"Permanently closed after Philip microwaved a decorative pinecone.",
+"Permanently closed after Philip attempted to make popcorn using an ear of corn.",
+"Permanently closed after Philip microwaved a snow globe.",
+"Permanently closed after Philip heated a tube of hand cream because it felt cold.",
+"Permanently closed after Philip microwaved a sealed jar labeled DO NOT HEAT.",
+"Permanently closed after Philip attempted to soften a stapler.",
+"Permanently closed after Philip microwaved a mood ring to improve morale."
+];
+const bulletins=[
+"Reminder: Susan is not an employee. She continues to ignore this.",
+"Philip is no longer allowed to begin a sentence with 'I've got an idea.'",
+"Barbara would like everyone to stop CC'ing her.",
+"Lost: Carl. Found: Carl. Please disregard.",
+"Sheila knows who took the stapler. She is choosing peace.",
+"The office raccoon now expects dental benefits. Please stop feeding it.",
+"Greg's meeting was postponed because Greg forgot to attend it.",
+"Please stop submitting emotional damage as an office expense.",
+"Susan has reported the bulletin board for bias.",
+"Novia completed an inspection. Everyone failed.",
+"Philip changed his title again. Payroll has declined to participate.",
+"No one is permitted to laminate personal grievances.",
+"The office microwave is now evidence."
+];
+const titles=[
+"Executive Regional Acting Deputy Assistant Commissioner of Temporary Permanent Affairs",
+"Vice Chairman of Unfinished Meetings",
+"Director of Strategic Clipboard Alignment",
+"Supreme Executive Liaison to Other Executive Liaisons",
+"Chief Administrator of Forms That Require Additional Forms",
+"Interim Senior Coordinator of Whatever This Is",
+"National Director of Standing Near the Printer",
+"Deputy Chancellor of Mildly Urgent Matters",
+"Acting Commissioner of Projects Nobody Approved",
+"Executive Vice President of Saying Leave It With Me",
+"Chief Officer of Inventing New Job Titles"
+];
+const susan=[
+'Current comment: "Actually..."','Current comment: "Source?"','Current comment: "I just think it is funny how..."',
+'Current comment: "Not everything needs to be political."','Current comment: "This generation..."',
+'Current comment: "Agree to disagree."','Current comment: "Do your research."','Current comment: "Nobody can say anything anymore."'
+];
+const novia=[
+"Current investigation: The disappearance of several treats.","Current investigation: Why Moo Cow was left outside.",
+"Current investigation: Everyone.","Current investigation: Whether Barbara has pâté.",
+"Current investigation: Who moved her blanket four inches.","Current investigation: Why breakfast has not happened again."
+];
+const elevators=[
+"Out of service after Greg pressed every button.","Temporarily stopped because Barbara needed a minute.",
+"Philip tried to improve it.","Susan is holding the door while typing a Facebook comment.",
+"Maximum capacity: 12 people or one Philip carrying an idea.","The elevator has requested reassignment."
+];
+const pills=["OPEN, BUT DISAPPOINTED","WAITING ON PAPERWORK","UNDER REVIEW","STAFFED, ALLEGEDLY","PLEASE TAKE A NUMBER","OPERATING WITH LIMITED PATIENCE"];
+function refreshAll(){
+document.getElementById('microwave').textContent=p(microwave);
+document.getElementById('bulletin').textContent=p(bulletins);
+document.getElementById('philipTitle').textContent=p(titles);
+document.getElementById('philip').textContent=p(["Previous titles: 487. Actual responsibilities: Unconfirmed.","Claims he was promoted. Nobody recalls promoting him.","Current project: Classified because nobody understands it.","May operate machinery: No. May operate light machinery: Also no."]);
+document.getElementById('susan').textContent=p(susan);
+document.getElementById('novia').textContent=p(novia);
+document.getElementById('greg').textContent=p(["Current project: Looking into it.","Still looking into it.","Looking for where he put it.","Creating a committee to define 'it.'"]);
+document.getElementById('barbara').textContent=p(["In a meeting.","Avoiding a meeting.","Pretending not to hear Greg.","Employee of the Month again.","Has seen enough."]);
+document.getElementById('sheila').textContent=p(["Knows where everything is. Will not tell Carl.","Already fixed the problem and told no one.","Possesses the only working pen in the building."]);
+document.getElementById('carl').textContent=p(["Currently missing one folder and half a chair.","Located the file. It is the wrong file.","Searching for a stapler he is holding.","Reported himself missing for twenty minutes."]);
+document.getElementById('elevator').textContent=p(elevators);
+document.getElementById('building').textContent=p(["OPEN, TECHNICALLY","OPERATING WITH CONCERNS","UNDER QUESTIONABLE MANAGEMENT","PAPERWORK LEVEL: SEVERE"]);
+document.getElementById('serving').textContent="A-"+String(Math.floor(Math.random()*38)+1).padStart(3,"0");
+document.getElementById('supervisor').textContent=p(["Barbara","Sheila","Novia","Greg, temporarily","Nobody has admitted responsibility"]);
+document.getElementById('egg').textContent=p(["There is no Floor 9. Philip made the sign.","Conference Room B is reserved until 2049 for a meeting that should have been an email.","The Information Desk has no information.","The rooftop Pigeon Relations Office denies everything."]);
+document.querySelectorAll('.pill').forEach(x=>x.textContent=p(pills));
+}
+function newBulletin(){document.getElementById('bulletin').textContent=p(bulletins)}
+function office(t,x){document.getElementById('modalTitle').textContent=t;document.getElementById('modalText').textContent=x;document.getElementById('fine').textContent=p(["No actual assistance is guaranteed.","Visitors may be placed on hold emotionally.","All complaints become property of the decorative clipboard.","This department reserves the right to redirect you to Barbara."]);document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+refreshAll();
+</script>
+</body>
+</html>
