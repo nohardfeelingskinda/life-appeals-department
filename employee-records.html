@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Employee Records | Department of Questionable Decisions</title>
+<style>
+:root{
+  --paper:#f4ecd7;
+  --paper2:#fffaf0;
+  --ink:#211d18;
+  --red:#8e1717;
+  --blue:#2f5066;
+  --gold:#a5832f;
+  --tan:#ded1b5;
+  --shadow:rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:Georgia,"Times New Roman",serif;
+  background:
+    radial-gradient(circle at top left,rgba(142,23,23,.08),transparent 25%),
+    radial-gradient(circle at bottom right,rgba(47,80,102,.12),transparent 30%),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.02) 0 1px,transparent 1px 6px),
+    var(--tan);
+}
+.wrapper{
+  max-width:1120px;
+  margin:24px auto;
+  padding:14px;
+}
+.records-office{
+  background:linear-gradient(180deg,var(--paper2),var(--paper));
+  border:5px double var(--ink);
+  box-shadow:10px 10px 0 rgba(0,0,0,.68);
+  padding:26px;
+  position:relative;
+  overflow:hidden;
+}
+.records-office:after{
+  content:"CONFIDENTIAL";
+  position:absolute;
+  right:-90px;
+  top:145px;
+  transform:rotate(36deg);
+  font:900 52px Arial,sans-serif;
+  letter-spacing:5px;
+  color:rgba(142,23,23,.065);
+  border:8px solid rgba(142,23,23,.065);
+  padding:8px 30px;
+  pointer-events:none;
+}
+header{
+  text-align:center;
+  border-bottom:4px double var(--ink);
+  padding-bottom:18px;
+}
+.seal{
+  width:92px;
+  height:92px;
+  border:4px double var(--ink);
+  border-radius:50%;
+  margin:0 auto 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  background:#fff4c9;
+}
+h1{
+  margin:4px 0;
+  font-size:40px;
+  letter-spacing:2px;
+}
+.subtitle{
+  margin:7px 0 0;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+}
+.nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  margin:18px 0;
+}
+.nav a{
+  color:#fff;
+  background:var(--ink);
+  text-decoration:none;
+  padding:9px 12px;
+  border:2px solid var(--ink);
+  font:700 12px Arial,sans-serif;
+  letter-spacing:.5px;
+}
+.nav a:hover{
+  background:#fff;
+  color:var(--ink);
+}
+.topline{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:20px;
+  font-family:"Courier New",monospace;
+}
+.topline div{
+  background:#fff;
+  border:2px solid var(--ink);
+  padding:10px;
+}
+.label{
+  display:block;
+  font:10px Arial,sans-serif;
+  color:#6b655b;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:3px;
+}
+.intro{
+  background:#fff;
+  border:2px solid var(--ink);
+  padding:15px;
+  margin-bottom:18px;
+  line-height:1.5;
+}
+.employee-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.employee-card{
+  background:#fff;
+  border:2px solid var(--ink);
+  padding:0;
+  cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.employee-card:hover{
+  transform:translateY(-3px);
+  box-shadow:5px 5px 0 var(--shadow);
+}
+.card-head{
+  display:grid;
+  grid-template-columns:76px 1fr;
+  border-bottom:2px solid var(--ink);
+}
+.badge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--blue);
+  color:#fff;
+  font-size:34px;
+}
+.card-title{
+  padding:12px;
+}
+.card-title h2{
+  margin:0;
+  font-size:24px;
+}
+.card-title p{
+  margin:5px 0 0;
+  font:12px Arial,sans-serif;
+  color:#565047;
+}
+.card-body{
+  padding:13px;
+}
+.card-body p{
+  margin:6px 0;
+  line-height:1.4;
+}
+.status{
+  display:inline-block;
+  margin-top:8px;
+  padding:5px 8px;
+  background:#eee7d4;
+  border:1px solid var(--ink);
+  font:700 10px Arial,sans-serif;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+}
+.notice{
+  margin-top:18px;
+  background:#fff4f4;
+  border:3px dashed var(--red);
+  padding:14px;
+  text-align:center;
+}
+.notice strong{
+  color:var(--red);
+  font-family:Arial,sans-serif;
+}
+footer{
+  margin-top:20px;
+  border-top:3px double var(--ink);
+  padding-top:13px;
+  text-align:center;
+  font:12px Arial,sans-serif;
+  line-height:1.5;
+}
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.76);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  padding:18px;
+}
+.modal.show{display:flex}
+.file{
+  width:min(760px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:var(--paper2);
+  border:5px double var(--ink);
+  box-shadow:10px 10px 0 rgba(0,0,0,.7);
+  padding:24px;
+  position:relative;
+}
+.file h2{
+  margin:0 0 5px;
+  font-size:31px;
+}
+.file-sub{
+  font:12px Arial,sans-serif;
+  color:#625b51;
+  margin-bottom:15px;
+}
+.file-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.field{
+  border:1px solid #857d70;
+  background:#fff;
+  padding:10px;
+}
+.field strong{
+  display:block;
+  font:10px Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#716a60;
+  margin-bottom:4px;
+}
+.wide{grid-column:1/-1}
+.classified{
+  margin-top:15px;
+  padding:14px;
+  border:3px solid var(--red);
+  background:#fff0f0;
+  position:relative;
+}
+.classified:before{
+  content:"CLASSIFIED";
+  position:absolute;
+  top:8px;
+  right:10px;
+  color:var(--red);
+  font:900 14px Arial,sans-serif;
+  transform:rotate(-6deg);
+}
+.classified button{
+  margin-top:8px;
+}
+button{
+  border:none;
+  background:var(--ink);
+  color:#fff;
+  padding:11px 14px;
+  font:900 13px Arial,sans-serif;
+  cursor:pointer;
+}
+.close{
+  position:absolute;
+  right:10px;
+  top:10px;
+  background:var(--red);
+}
+.denied{
+  display:none;
+  margin-top:10px;
+  border:2px solid var(--red);
+  padding:10px;
+  color:var(--red);
+  font:900 16px "Courier New",monospace;
+  background:#fff;
+}
+.denied.show{display:block}
+@media(max-width:780px){
+  .employee-grid{grid-template-columns:1fr}
+  .topline{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .records-office{padding:16px;box-shadow:5px 5px 0 rgba(0,0,0,.68)}
+  h1{font-size:29px}
+  .file-grid{grid-template-columns:1fr}
+  .wide{grid-column:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<main class="records-office">
+<header>
+  <div class="seal">🗂️</div>
+  <h1>EMPLOYEE RECORDS</h1>
+  <p class="subtitle">Department of Questionable Decisions • Personnel Division</p>
+</header>
+
+<nav class="nav">
+  <a href="index.html">🏛️ Lobby</a>
+  <a href="directory.html">📂 Building Directory</a>
+  <a href="employee-records.html">👥 Employee Records</a>
+</nav>
+
+<section class="topline">
+  <div><span class="label">Database Status</span><span id="databaseStatus"></span></div>
+  <div><span class="label">Records Clerk</span><span id="recordsClerk"></span></div>
+  <div><span class="label">Files Currently Missing</span><span id="missingFiles"></span></div>
+</section>
+
+<section class="intro">
+  Select an employee to review their official personnel file. Information contained in these records is accurate to the best of our knowledge, which is not saying much.
+</section>
+
+<section class="employee-grid">
+
+  <article class="employee-card" onclick="openFile('barbara')">
+    <div class="card-head">
+      <div class="badge">👩</div>
+      <div class="card-title">
+        <h2>Barbara</h2>
+        <p>Director of Things That Could Have Been Avoided</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Runs the department, the floor, and several meetings she did not schedule.</p>
+      <span class="status" id="barbaraStatus"></span>
+    </div>
+  </article>
+
+  <article class="employee-card" onclick="openFile('greg')">
+    <div class="card-head">
+      <div class="badge">👨</div>
+      <div class="card-title">
+        <h2>Greg</h2>
+        <p>Assistant Director of Looking Into It</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Has been looking into it for an amount of time nobody can verify.</p>
+      <span class="status" id="gregStatus"></span>
+    </div>
+  </article>
+
+  <article class="employee-card" onclick="openFile('sheila')">
+    <div class="card-head">
+      <div class="badge">👩‍💼</div>
+      <div class="card-title">
+        <h2>Sheila</h2>
+        <p>Keeper of the Files</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Knows where everything is and has stopped explaining how.</p>
+      <span class="status" id="sheilaStatus"></span>
+    </div>
+  </article>
+
+  <article class="employee-card" onclick="openFile('carl')">
+    <div class="card-head">
+      <div class="badge">👨‍💼</div>
+      <div class="card-title">
+        <h2>Carl</h2>
+        <p>Records Management, Allegedly</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>May currently be inside the building. Reports are conflicting.</p>
+      <span class="status" id="carlStatus"></span>
+    </div>
+  </article>
+
+  <article class="employee-card" onclick="openFile('philip')">
+    <div class="card-head">
+      <div class="badge">📛</div>
+      <div class="card-title">
+        <h2>Philip</h2>
+        <p id="philipCardTitle"></p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Promoted himself again. Payroll has declined to comment.</p>
+      <span class="status" id="philipStatus"></span>
+    </div>
+  </article>
+
+  <article class="employee-card" onclick="openFile('susan')">
+    <div class="card-head">
+      <div class="badge">📱</div>
+      <div class="card-title">
+        <h2>Susan from Facebook</h2>
+        <p>Official Position: None</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Does not work here. Has nevertheless attended every meeting.</p>
+      <span class="status" id="susanStatus"></span>
+    </div>
+  </article>
+
+  <article class="employee-card" onclick="openFile('novia')">
+    <div class="card-head">
+      <div class="badge">🐶</div>
+      <div class="card-title">
+        <h2>Novia</h2>
+        <p>Lead Investigator</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>Tiny, decorated, and currently investigating everyone.</p>
+      <span class="status" id="noviaStatus"></span>
+    </div>
+  </article>
+
+</section>
+
+<section class="notice">
+  <strong>NOTICE:</strong>
+  Any attempt to alter a personnel file will be reported to Barbara, Sheila, Novia, or whichever one answers first.
+</section>
+
+<footer>
+  Personnel records are confidential, incomplete, and occasionally stored in the refrigerator.<br>
+  Susan has requested a correction. Her request has been denied.
+</footer>
+</main>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target.id==='modal')closeFile()">
+  <section class="file">
+    <button class="close" onclick="closeFile()">X</button>
+    <h2 id="fileName"></h2>
+    <div class="file-sub">OFFICIAL PERSONNEL FILE • DO NOT REMOVE FROM BUILDING</div>
+
+    <div class="file-grid">
+      <div class="field"><strong>Current Title</strong><span id="fileTitle"></span></div>
+      <div class="field"><strong>Employment Status</strong><span id="fileEmployment"></span></div>
+      <div class="field"><strong>Years of Service</strong><span id="fileYears"></span></div>
+      <div class="field"><strong>Current Location</strong><span id="fileLocation"></span></div>
+      <div class="field"><strong>Strengths</strong><span id="fileStrengths"></span></div>
+      <div class="field"><strong>Weaknesses</strong><span id="fileWeaknesses"></span></div>
+      <div class="field"><strong>Performance Rating</strong><span id="fileRating"></span></div>
+      <div class="field"><strong>Security Clearance</strong><span id="fileClearance"></span></div>
+      <div class="field wide"><strong>Current Assignment</strong><span id="fileAssignment"></span></div>
+      <div class="field wide"><strong>Documented Incidents</strong><span id="fileIncidents"></span></div>
+      <div class="field wide"><strong>Supervisor Notes</strong><span id="fileNotes"></span></div>
+    </div>
+
+    <div class="classified">
+      <strong>Restricted Information</strong>
+      <p>This section requires clearance nobody in this building currently possesses.</p>
+      <button onclick="denyAccess()">VIEW CLASSIFIED INFORMATION</button>
+      <div class="denied" id="denied"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+
+const philipTitles = [
+  "Executive Regional Acting Deputy Assistant Commissioner of Temporary Permanent Affairs",
+  "Vice Chairman of Unfinished Meetings",
+  "Director of Strategic Clipboard Alignment",
+  "Supreme Executive Liaison to Other Executive Liaisons",
+  "Chief Administrator of Forms That Require Additional Forms",
+  "Interim Senior Coordinator of Whatever This Is",
+  "National Director of Standing Near the Printer",
+  "Deputy Chancellor of Mildly Urgent Matters",
+  "Acting Commissioner of Projects Nobody Approved",
+  "Executive Vice President of Saying Leave It With Me",
+  "Chief Officer of Inventing New Job Titles",
+  "Commissioner of Special Projects and Microwave Restrictions"
+];
+
+const records = {
+  barbara:{
+    name:"Barbara",
+    title:"Director of Things That Could Have Been Avoided",
+    employment:["Active","Extremely Active","Still Somehow Responsible for Everything"],
+    years:["Longer than she would like to discuss","Since before Greg started looking into it","Records predate the current building"],
+    location:["In a meeting","Avoiding a meeting","Behind a closed door pretending not to hear Greg","At her desk reviewing everyone’s choices"],
+    strengths:["Common sense, authority, immaculate paperwork","Ending meetings before Philip presents an idea","Knowing exactly when someone is lying"],
+    weaknesses:["Greg","Being copied on emails","The phrase quick question"],
+    rating:["★★★★★","★★★★★, under protest","Employee of the Month again"],
+    clearance:["Level 9","All Areas","Higher than Philip thinks his is"],
+    assignment:["Preventing the department from collapsing before 5 PM.","Reviewing twelve appeals and one deeply unnecessary memo.","Determining who authorized Philip’s latest title."],
+    incidents:["None. Barbara documents incidents. She does not create them.","One verbal warning issued to the entire building.","Refused to attend Philip’s ribbon-cutting ceremony for a storage closet."],
+    notes:["Essential. Do not irritate.","Has approved six appeals out of 98,417.","If Barbara says we are not doing that, we are not doing that."]
+  },
+  greg:{
+    name:"Greg",
+    title:"Assistant Director of Looking Into It",
+    employment:["Active","Active, probably","Present but uncertain"],
+    years:["Seven, according to Greg","Long enough to know better","Pending verification"],
+    location:["Looking into it","Searching for where he put it","Standing near Sheila’s desk","In Conference Room B without a meeting"],
+    strengths:["Enthusiasm, follow-up emails, carrying folders","Saying he will check","Remaining optimistic without evidence"],
+    weaknesses:["Finishing the thing he is looking into","Knowing what it is","Calendar invitations"],
+    rating:["★★★☆☆","Pending","Review postponed until Greg locates the form"],
+    clearance:["Level 3","Temporary","Expires whenever Barbara notices"],
+    assignment:["Define what exactly he is looking into.","Locate the document currently in his hand.","Prepare a progress report with measurable progress."],
+    incidents:["Pressed every elevator button.","Scheduled a meeting and forgot to attend it.","Submitted the same request under three different subject lines."],
+    notes:["Trying his best.","Requires clear instructions and occasional retrieval.","Do not ask for an update unless you have time."]
+  },
+  sheila:{
+    name:"Sheila",
+    title:"Keeper of the Files",
+    employment:["Active","Indispensable","Officially on break but still fixing things"],
+    years:["Classified","Long enough to remember the old filing system","Nobody has found her original hire form"],
+    location:["At the records desk","Fixing Carl’s latest mistake","Somewhere she can see everything","Returning a file before anyone noticed it was missing"],
+    strengths:["Knowing where everything is","Silence with consequences","Finding documents Carl swore never existed"],
+    weaknesses:["People touching her labels","Unnecessary questions","Watching Greg reorganize anything"],
+    rating:["★★★★★","Beyond review","The rating form was completed before it was issued"],
+    clearance:["All Files","Archive Level","Sheila grants clearance"],
+    assignment:["Restore order without explaining how.","Locate the stapler and decide whether to return it.","Correct the employee database after Philip edited his own title."],
+    incidents:["None documented. Sheila controls the documents.","Once stared at Carl until he found a missing folder.","Removed Philip’s access to the label maker."],
+    notes:["Do not move anything on her desk.","Knows what happened in the cafeteria and will not discuss it.","Probably already read this file."]
+  },
+  carl:{
+    name:"Carl",
+    title:"Records Management, Allegedly",
+    employment:["Active, location unknown","Missing but still clocked in","Present according to payroll"],
+    years:["Eight, minus several unexplained absences","Unknown because he lost the form","Since the filing cabinet incident"],
+    location:["Storage closet","Parking lot","Right behind you","Searching for the records office","Inside the records office asking where it is"],
+    strengths:["Finding unrelated documents","Apologizing sincerely","Creating mysteries without meaning to"],
+    weaknesses:["Folders, keys, directions, chairs","Keeping track of anything portable","Recognizing the stapler in his own hand"],
+    rating:["★★☆☆☆","File incomplete","Review misplaced"],
+    clearance:["Level 2","Suspended near archives","Access limited to empty cabinets"],
+    assignment:["Locate himself.","Return the folder labeled DO NOT LOSE.","Explain why Greg’s paperwork was in the refrigerator."],
+    incidents:["Reported himself missing for twenty minutes.","Lost a microwave built into the wall.","Filed an incident report inside the incident report."],
+    notes:["Means well.","Attach all important items to the desk.","If found, return to Sheila."]
+  },
+  philip:{
+    name:"Philip",
+    title:pick(philipTitles),
+    employment:["Active despite several meetings","Self-promoted","Under administrative observation"],
+    years:["Depends which title he is using","Fourteen titles per year","Employment date obscured by amendments"],
+    location:["Near the printer","Outside the locked cafeteria","In a storage closet preparing a ceremony","Carrying a box he calls a prototype"],
+    strengths:["Confidence","Creating titles","Entering rooms as though expected"],
+    weaknesses:["Appliances with buttons","The phrase trust me","Knowing when an idea should remain private"],
+    rating:["★★☆☆☆","Enthusiasm noted","Evaluation interrupted by fire alarm"],
+    clearance:["Surprisingly Active","Microwave Access Revoked","Level 4, self-issued"],
+    assignment:["Do not touch anything.","Submit a written explanation of the cafeteria incident.","Stop planning Microwave 2: Redemption."],
+    incidents:["Microwaved an item selected at random by poor judgment.","Attempted to soften a stapler.","Held a ribbon-cutting ceremony for an empty storage closet.","Changed his title in the employee database 17 times."],
+    notes:["No more prototypes.","Titles must be approved by someone other than Philip.","Keep away from heat sources, machinery, and decorative objects."]
+  },
+  susan:{
+    name:"Susan from Facebook",
+    title:"Official Position: None",
+    employment:["Not Employed","Unauthorized Visitor","Still Here"],
+    years:["Zero","She claims twelve","Not applicable, despite what she posted"],
+    location:["In the comments","At a meeting she was not invited to","Holding the elevator door","Near the front desk asking for a manager"],
+    strengths:["Typing quickly","Having an opinion immediately","Finding a political angle where none existed"],
+    weaknesses:["Sources","Changing her mind","Understanding that she does not work here"],
+    rating:["Not eligible","Review rejected","She reviewed herself and gave five stars"],
+    clearance:["Revoked","Never issued","Claims the Constitution grants access"],
+    assignment:["Leave the building.","Stop commenting on internal notices.","Explain how she keeps getting into meetings."],
+    incidents:["Submitted 14,362 unsolicited opinions.","Reported the bulletin board for bias.","Requested employee benefits despite not being an employee."],
+    notes:["Do not argue with Susan. Susan enjoys it.","Her employment appeal has been denied.","She has requested a correction to this file. Also denied."]
+  },
+  novia:{
+    name:"Novia",
+    title:"Lead Investigator",
+    employment:["Active","On Patrol","Currently Supervising Everyone"],
+    years:["Almost eleven years of distinguished tiny service","Classified in dog years","Long enough to outrank Greg"],
+    location:["Inspecting the kitchen","Watching Moo Cow","In her basket conducting surveillance","Five feet away, judging the room"],
+    strengths:["Observation, authority, hearing pâté open from another floor","Immediate response to serious matters","Being tiny without reducing operational command"],
+    weaknesses:["Delayed breakfast","Unauthorized Moo Cow handling","People who expect her to walk when she can be carried"],
+    rating:["★★★★★","Perfect record","Reviewer declined to risk a lower score"],
+    clearance:["All Areas","Kitchen Priority","Lead Investigator Access"],
+    assignment:["Investigate everyone.","Determine why breakfast has not happened again.","Recover Moo Cow and inspect the treat inventory."],
+    incidents:["None. All actions were investigative.","Removed a witness from the scene by carrying Moo Cow outside.","Issued a silent disciplinary stare to the entire department."],
+    notes:["Accepts payment in pâté.","Tiny but unquestionably in charge.","Do not obstruct an active investigation."]
+  }
+};
+
+const statusOptions = [
+  "ACTIVE",
+  "UNDER REVIEW",
+  "CURRENTLY AVAILABLE",
+  "LOCATION UNCONFIRMED",
+  "OPERATING WITH CONCERNS",
+  "DO NOT DISTURB",
+  "PAPERWORK PENDING"
+];
+
+function initialize(){
+  document.getElementById("databaseStatus").textContent = pick([
+    "ONLINE, TECHNICALLY",
+    "OPERATING WITH MINOR CONCERNS",
+    "SHEILA FIXED IT",
+    "PARTIALLY ACCURATE"
+  ]);
+  document.getElementById("recordsClerk").textContent = pick([
+    "Sheila",
+    "Carl, temporarily",
+    "Barbara by necessity",
+    "Nobody has admitted responsibility"
+  ]);
+  document.getElementById("missingFiles").textContent = pick([
+    "3",
+    "7",
+    "Carl’s",
+    "Unknown",
+    "None, according to Carl"
+  ]);
+  document.getElementById("philipCardTitle").textContent = pick(philipTitles);
+
+  ["barbara","greg","sheila","carl","philip","susan","novia"].forEach(id=>{
+    document.getElementById(id+"Status").textContent = pick(statusOptions);
+  });
+}
+
+function openFile(id){
+  const r = records[id];
+  if(id==="philip") r.title = pick(philipTitles);
+
+  document.getElementById("fileName").textContent = r.name;
+  document.getElementById("fileTitle").textContent = r.title;
+  document.getElementById("fileEmployment").textContent = pick(r.employment);
+  document.getElementById("fileYears").textContent = pick(r.years);
+  document.getElementById("fileLocation").textContent = pick(r.location);
+  document.getElementById("fileStrengths").textContent = pick(r.strengths);
+  document.getElementById("fileWeaknesses").textContent = pick(r.weaknesses);
+  document.getElementById("fileRating").textContent = pick(r.rating);
+  document.getElementById("fileClearance").textContent = pick(r.clearance);
+  document.getElementById("fileAssignment").textContent = pick(r.assignment);
+  document.getElementById("fileIncidents").textContent = pick(r.incidents);
+  document.getElementById("fileNotes").textContent = pick(r.notes);
+  document.getElementById("denied").classList.remove("show");
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeFile(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+function denyAccess(){
+  const box = document.getElementById("denied");
+  box.textContent = pick([
+    "ACCESS DENIED. REASON: ABSOLUTELY NOT.",
+    "ACCESS DENIED. BARBARA SAID NO.",
+    "ACCESS DENIED. CLEARANCE FORM IS MISSING.",
+    "ACCESS DENIED. SUSAN ALREADY TRIED THIS.",
+    "ACCESS DENIED. NOVIA IS REVIEWING YOUR REQUEST."
+  ]);
+  box.classList.add("show");
+}
+
+initialize();
+</script>
+</body>
+</html>
