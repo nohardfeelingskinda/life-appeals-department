@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Case Files</title>
+<style>
+body{margin:0;background:#d6cab2;font-family:Georgia,serif;color:#222}
+.wrap{max-width:1050px;margin:24px auto;padding:18px}
+.paper{background:#f8f2e7;border:5px double #222;padding:24px;box-shadow:8px 8px 0 #444;position:relative}
+.paper:after{content:"ARCHIVES";position:absolute;right:-60px;top:80px;transform:rotate(28deg);font:900 52px Arial;color:rgba(140,0,0,.08);border:6px solid rgba(140,0,0,.08);padding:6px 24px}
+nav{text-align:center;margin:15px 0}
+nav a{display:inline-block;background:#222;color:#fff;text-decoration:none;padding:8px 12px;margin:4px;font:700 12px Arial}
+h1{text-align:center;margin:0}
+.sub{text-align:center;font-family:Arial;margin-bottom:20px}
+.file{border:2px solid #222;background:#fff;padding:14px;margin:12px 0;cursor:pointer}
+.file:hover{background:#f7f7f7}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.card{background:#faf6ed;border:5px double #222;max-width:760px;width:100%;padding:22px;position:relative}
+.close{position:absolute;right:10px;top:10px;background:#900;color:#fff;border:none;padding:8px;cursor:pointer}
+.sec{margin:10px 0;padding:10px;border:1px solid #777;background:#fff}
+.sec b{display:block;font:11px Arial;text-transform:uppercase;color:#666;margin-bottom:4px}
+button{background:#222;color:#fff;border:none;padding:10px 12px;cursor:pointer}
+#denied{display:none;border:2px solid #900;color:#900;background:#fff;padding:10px;margin-top:10px;font:900 16px Courier}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="paper">
+<h1>📁 ARCHIVED CASE FILES</h1>
+<div class="sub">Department of Questionable Decisions • Internal Investigations</div>
+<nav>
+<a href="index.html">🏛️ Lobby</a>
+<a href="directory.html">📂 Directory</a>
+<a href="employee-records.html">👥 Employee Records</a>
+<a href="bulletin-board.html">📌 Bulletin Board</a>
+<a href="case-files.html">📁 Case Files</a>
+</nav>
+
+<div class="file" onclick="openCase('cafeteria')"><b>CASE 24-118</b><br>The Cafeteria Incident</div>
+<div class="file" onclick="openCase('carl')"><b>CASE 19-044</b><br>Operation: Find Carl</div>
+<div class="file" onclick="openCase('stapler')"><b>CASE 31-002</b><br>The Great Stapler Theft</div>
+<div class="file" onclick="openCase('susan')"><b>CASE 11-927</b><br>Susan's Employment Appeal</div>
+<div class="file" onclick="openCase('moocow')"><b>CASE 08-001</b><br>Project Moo Cow</div>
+<div class="file" onclick="openCase('philip')"><b>CASE 77-404</b><br>Philip v. Common Sense</div>
+
+</div></div>
+
+<div class="modal" id="m">
+<div class="card">
+<button class="close" onclick="m.classList.remove('show')">X</button>
+<h2 id="title"></h2>
+<div class="sec"><b>Incident Summary</b><div id="summary"></div></div>
+<div class="sec"><b>Employees Involved</b><div id="people"></div></div>
+<div class="sec"><b>Evidence Collected</b><div id="evidence"></div></div>
+<div class="sec"><b>Witness Statement</b><div id="witness"></div></div>
+<div class="sec"><b>Barbara's Final Determination</b><div id="ruling"></div></div>
+
+<button onclick="deny()">VIEW SEALED EVIDENCE</button>
+<div id="denied"></div>
+</div>
+</div>
+
+<script>
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const cases={
+cafeteria:{
+t:"CASE 24-118 • The Cafeteria Incident",
+s:["At approximately 2:14 PM, Philip placed a decorative pinecone into the microwave after stating, 'Let's see what happens.'","The incident began with confidence and ended with Facilities paperwork."],
+p:["Philip, Barbara, Facilities","Philip, three witnesses, and one traumatized microwave"],
+e:["One decorative pinecone, one incident report, and several disappointed expressions.","A microwave that now flinches when Philip walks by."],
+w:["'I specifically said don't.' — Barbara","'In hindsight, yes.' — Philip"],
+r:["The cafeteria has adopted a 'Philip must be supervised' policy.","Discussion of this event is considered unproductive."]
+},
+carl:{
+t:"CASE 19-044 • Operation: Find Carl",
+s:["Carl reported that Carl was missing.","The search began after Carl attended a meeting looking for himself."],
+p:["Carl, Greg, Sheila"],
+e:["One map with 'You Are Here' circled twice.","Carl's employee badge found in Carl's pocket."],
+w:["'Has anyone checked where Carl usually is?' 'Where is that?'"],
+r:["Carl was located. He had been assisting in the search."]
+},
+stapler:{
+t:"CASE 31-002 • The Great Stapler Theft",
+s:["Barbara's stapler disappeared for eleven minutes.","The department briefly entered survival mode."],
+p:["Everyone was considered suspicious."],
+e:["One empty desk.","A suspicious amount of innocence."],
+w:["'I was holding it for someone.'"],
+r:["Borrowing Barbara's stapler now requires emotional preparedness."]
+},
+susan:{
+t:"CASE 11-927 • Susan's Employment Appeal",
+s:["Susan appealed her employment status despite never being employed."],
+p:["Susan."],
+e:["Forty-seven comments.","Zero employment records."],
+w:["'I've basically worked here for years.'"],
+r:["Appeal denied. Again."]
+},
+moocow:{
+t:"CASE 08-001 • Project Moo Cow",
+s:["Lead Investigator Novia temporarily removed Moo Cow from evidence.","No wrongdoing was found."],
+p:["Novia","Moo Cow"],
+e:["One beloved toy.","An impressive amount of determination."],
+w:["'She looked very official.'"],
+r:["Project remains classified because Novia said so."]
+},
+philip:{
+t:"CASE 77-404 • Philip v. Common Sense",
+s:["The department attempted mediation.","Common Sense declined to participate."],
+p:["Philip","Common Sense (Absent)"],
+e:["Several proposals.","No approvals."],
+w:["'Hear me out...'"],
+r:["Future hearings postponed indefinitely."]
+}
+};
+
+function openCase(id){
+let c=cases[id];
+title.textContent=c.t;
+summary.textContent=pick(c.s);
+people.textContent=pick(c.p);
+evidence.textContent=pick(c.e);
+witness.textContent=pick(c.w);
+ruling.textContent=pick(c.r);
+denied.style.display="none";
+m.classList.add("show");
+}
+function deny(){
+denied.style.display="block";
+denied.textContent=pick([
+"ACCESS DENIED. BARBARA SAID ABSOLUTELY NOT.",
+"SEALED EVIDENCE REMAINS SEALED.",
+"REQUEST DENIED. PLEASE STOP ASKING.",
+"ACCESS DENIED. NOVIA IS STILL INVESTIGATING."
+]);
+}
+</script>
+</body>
+</html>
