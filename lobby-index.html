@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Department of Questionable Decisions</title>
+<style>
+:root{--paper:#f6f0df;--paper2:#fffaf0;--ink:#1f1b16;--red:#8b1111;--dark:#24211d;--tan:#d9caa8;--gold:#a67c00}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(circle at top left,rgba(139,17,17,.16),transparent 28%),radial-gradient(circle at bottom right,rgba(36,33,29,.18),transparent 30%),repeating-linear-gradient(90deg,rgba(0,0,0,.025) 0 1px,transparent 1px 7px),#e8ddc8}
+.wrap{max-width:1040px;margin:22px auto;padding:16px}
+.lobby{background:linear-gradient(180deg,var(--paper2),var(--paper));border:4px double var(--dark);box-shadow:9px 9px 0 rgba(0,0,0,.72);padding:28px;position:relative;overflow:hidden}
+.lobby:before{content:"PUBLIC ENTRANCE";position:absolute;top:115px;right:-96px;transform:rotate(35deg);font-family:Arial,sans-serif;font-weight:900;letter-spacing:5px;font-size:42px;color:rgba(139,17,17,.07);border:7px solid rgba(139,17,17,.07);padding:8px 26px;pointer-events:none}
+header{text-align:center;border-bottom:4px double var(--dark);padding-bottom:20px}
+.seal{width:96px;height:96px;margin:0 auto 12px;border:4px double var(--dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;background:#fff7dc;box-shadow:0 0 0 8px rgba(166,124,0,.08)}
+h1{margin:4px 0;font-size:39px;letter-spacing:2px;line-height:1.05}
+.subtitle{margin:7px 0 0;font-size:19px}.motto{font-family:Arial,sans-serif;font-size:13px;margin:9px 0 0}
+.welcome{margin:22px 0;padding:18px;background:#fff;border:2px solid var(--dark);line-height:1.6;text-align:center}
+.welcome h2{margin:0 0 10px;font-size:26px}.welcome p{margin:8px auto;max-width:760px}
+.statusbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0 22px;font-family:"Courier New",monospace}
+.statusbar div{background:#fff;border:2px solid var(--dark);padding:10px}
+.label{display:block;color:#5b554c;font:10px Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.directory-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.office-link{display:block;color:var(--ink);text-decoration:none;background:#fff;border:2px solid var(--dark);padding:18px;transition:transform .12s ease,box-shadow .12s ease;position:relative}
+.office-link:hover{transform:translateY(-3px);box-shadow:5px 5px 0 rgba(0,0,0,.35)}
+.office-link h3{margin:0 0 7px;font-size:23px}.office-link p{margin:0;line-height:1.45;font-family:Arial,sans-serif;font-size:14px}
+.office-number{display:inline-block;margin-top:11px;padding:5px 8px;border:1px solid var(--dark);background:#eee8d6;font:700 10px Arial,sans-serif;letter-spacing:.7px}
+.closed{opacity:.78;cursor:not-allowed}.closed:after{content:"COMING SOON";position:absolute;top:14px;right:14px;color:var(--red);border:3px solid var(--red);padding:5px 8px;font:900 11px Arial,sans-serif;transform:rotate(-5deg)}
+.reception{margin-top:22px;padding:16px;background:#efe2bc;border:2px dashed #8a7450;font-family:Arial,sans-serif;line-height:1.5}.reception strong{font-family:Georgia,serif}
+footer{margin-top:20px;border-top:3px double var(--dark);padding-top:14px;text-align:center;font:12px Arial,sans-serif;line-height:1.6}
+@media(max-width:760px){.directory-grid,.statusbar{grid-template-columns:1fr}.wrap{padding:10px;margin:8px auto}.lobby{padding:18px;box-shadow:5px 5px 0 rgba(0,0,0,.7)}h1{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="wrap"><main class="lobby">
+<header><div class="seal">🏛️</div><h1>DEPARTMENT OF QUESTIONABLE DECISIONS</h1><p class="subtitle">Public Lobby &amp; Citizen Services</p><p class="motto">We cannot guarantee solutions. We can guarantee paperwork.</p></header>
+<section class="welcome"><h2>Welcome.</h2><p>The Department processes poor decisions, avoidable incidents, regrettable choices, suspicious circumstances, and complaints that probably will not change anything.</p><p>Please proceed to the appropriate office. Choosing the wrong office may result in additional forms.</p></section>
+<section class="statusbar">
+<div><span class="label">Building Status</span><span id="buildingStatus"></span></div>
+<div><span class="label">Reception Desk</span><span id="receptionStatus"></span></div>
+<div><span class="label">Current Wait Time</span><span id="waitTime"></span></div>
+</section>
+<section class="directory-grid">
+<a class="office-link" href="life-appeals.html"><h3>📄 Life Appeals Department</h3><p>File an appeal regarding life, relationships, employment, family, or somebody having entirely too much audacity.</p><span class="office-number">OFFICE 101</span></a>
+<a class="office-link" href="directory.html"><h3>📂 Building Directory</h3><p>Locate departments, employees, elevators, restricted areas, and Philip's current title.</p><span class="office-number">LOBBY DIRECTORY</span></a>
+<a class="office-link" href="employee-records.html"><h3>👥 Employee Records</h3><p>Review official personnel files, performance notes, documented incidents, and several administrative concerns.</p><span class="office-number">OFFICE 204</span></a>
+<a class="office-link" href="bulletin-board.html"><h3>📌 Daily Bulletin Board</h3><p>Read official notices, facilities updates, interoffice memos, and warnings everyone claims they never saw.</p><span class="office-number">MAIN HALLWAY</span></a>
+<a class="office-link" href="case-files.html"><h3>📁 Archived Case Files</h3><p>Examine internal investigations involving missing employees, unauthorized appeals, and appliances under stress.</p><span class="office-number">ARCHIVES LEVEL B</span></a>
+<div class="office-link closed"><h3>🚪 Authorized Personnel Only</h3><p>This office is unavailable to the public. Philip has also been denied access, which has not stopped him from asking.</p><span class="office-number">LOCATION CLASSIFIED</span></div>
+</section>
+<section class="reception"><strong>Reception Notice:</strong> Visitors wishing to contact JoJo directly should use the Contact JoJo page on the main No Hard Feelings...Kinda website. Complaints directed at life itself should be filed with Office 101.</section>
+<footer>Department of Questionable Decisions • Public Access Revision 1.0<br>Please do not encourage Philip. Susan does not work here.</footer>
+</main></div>
+<script>
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+document.getElementById("buildingStatus").textContent=pick(["NORMAL OPERATIONS","BARBARA IS AWARE","GREG IS LOOKING INTO IT","SHEILA HAS THE SITUATION UNDER CONTROL","OPERATING WITH MINOR CONCERNS","ELEVATOR BEHAVING NORMALLY","PLEASE IGNORE THE BEEPING"]);
+document.getElementById("receptionStatus").textContent=pick(["OPEN","TEMPORARILY UNSUPERVISED","JANET WILL BE RIGHT BACK","BARBARA IS COVERING AGAIN","PLEASE TAKE A NUMBER"]);
+document.getElementById("waitTime").textContent=pick(["3–5 BUSINESS DECADES","LONGER IF GREG IS ASSIGNED","APPROXIMATELY ONE DRAMATIC SIGH","UNKNOWN","SURPRISINGLY REASONABLE","BARBARA SAID SIT DOWN"]);
+</script>
+</body>
+</html>
